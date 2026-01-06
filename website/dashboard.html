@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightFlow | Data Warehouse Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <span class="logo-text">InsightFlow</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Case Study</span>
+                    <a href="#" class="nav-item active" data-section="overview">
+                        <i class="fas fa-th-large"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="architecture">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Architecture</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Data Layers</span>
+                    <a href="#" class="nav-item" data-section="bronze">
+                        <span class="layer-dot bronze"></span>
+                        <span>Bronze Layer</span>
+                        <span class="nav-badge">6</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="silver">
+                        <span class="layer-dot silver"></span>
+                        <span>Silver Layer</span>
+                        <span class="nav-badge">6</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="gold">
+                        <span class="layer-dot gold"></span>
+                        <span>Gold Layer</span>
+                        <span class="nav-badge">3</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Quality</span>
+                    <a href="#" class="nav-item" data-section="quality">
+                        <i class="fas fa-shield-check"></i>
+                        <span>Data Quality</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="https://github.com/rahulx2001/InsightFlow" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i>
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item">Case Study</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="breadcrumb-item active" id="currentSection">Overview</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span>PostgreSQL</span>
+                    </div>
+                    <div class="user-avatar">
+                        <span>RS</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                
+                <!-- ==================== OVERVIEW SECTION ==================== -->
+                <section id="section-overview" class="content-section active">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1>Data Warehouse Case Study</h1>
+                            <p>Building an enterprise data warehouse with Medallion Architecture using PostgreSQL</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">Data Layers</span>
+                            </div>
+                            <span class="stat-detail">Bronze → Silver → Gold</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <i class="fas fa-table"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">15</span>
+                                <span class="stat-label">Total Tables</span>
+                            </div>
+                            <span class="stat-detail">6 Bronze + 6 Silver + 3 Gold</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">116K</span>
+                                <span class="stat-label">Total Records</span>
+                            </div>
+                            <span class="stat-detail">Processed from 2 source systems</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-code-branch"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Transformations</span>
+                            </div>
+                            <span class="stat-detail">Business rules applied</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Project Overview</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="overview-content">
+                                <div class="overview-text">
+                                    <p><strong>InsightFlow</strong> is an end-to-end data warehouse project that demonstrates enterprise-grade ETL practices using PostgreSQL. The project implements the <strong>Medallion Architecture</strong> pattern to progressively refine raw data into analytics-ready datasets.</p>
+                                    
+                                    <div class="key-objectives">
+                                        <h4>Key Objectives</h4>
+                                        <ul>
+                                            <li><i class="fas fa-check"></i> Integrate data from multiple source systems (CRM & ERP)</li>
+                                            <li><i class="fas fa-check"></i> Apply data cleansing and standardization rules</li>
+                                            <li><i class="fas fa-check"></i> Build a star schema for business intelligence</li>
+                                            <li><i class="fas fa-check"></i> Implement data quality validation checks</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tech-stack-box">
+                                    <h4>Technology Stack</h4>
+                                    <div class="tech-items">
+                                        <div class="tech-item">
+                                            <i class="fas fa-database"></i>
+                                            <span>PostgreSQL</span>
+                                        </div>
+                                        <div class="tech-item">
+                                            <i class="fas fa-code"></i>
+                                            <span>SQL/PL-pgSQL</span>
+                                        </div>
+                                        <div class="tech-item">
+                                            <i class="fas fa-star"></i>
+                                            <span>Star Schema</span>
+                                        </div>
+                                        <div class="tech-item">
+                                            <i class="fas fa-cogs"></i>
+                                            <span>Stored Procedures</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Sources -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plug"></i> Data Sources</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="sources-grid">
+                                <div class="source-card crm">
+                                    <div class="source-header">
+                                        <i class="fas fa-users"></i>
+                                        <span>CRM System</span>
+                                    </div>
+                                    <div class="source-tables">
+                                        <div class="source-table">
+                                            <span class="table-name">cust_info.csv</span>
+                                            <span class="row-count">18,484 rows</span>
+                                        </div>
+                                        <div class="source-table">
+                                            <span class="table-name">prd_info.csv</span>
+                                            <span class="row-count">397 rows</span>
+                                        </div>
+                                        <div class="source-table">
+                                            <span class="table-name">sales_details.csv</span>
+                                            <span class="row-count">60,398 rows</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="source-card erp">
+                                    <div class="source-header">
+                                        <i class="fas fa-building"></i>
+                                        <span>ERP System</span>
+                                    </div>
+                                    <div class="source-tables">
+                                        <div class="source-table">
+                                            <span class="table-name">CUST_AZ12.csv</span>
+                                            <span class="row-count">18,484 rows</span>
+                                        </div>
+                                        <div class="source-table">
+                                            <span class="table-name">LOC_A101.csv</span>
+                                            <span class="row-count">18,484 rows</span>
+                                        </div>
+                                        <div class="source-table">
+                                            <span class="table-name">PX_CAT_G1V2.csv</span>
+                                            <span class="row-count">37 rows</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== ARCHITECTURE SECTION ==================== -->
+                <section id="section-architecture" class="content-section">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1>Medallion Architecture</h1>
+                            <p>Progressive data refinement through Bronze, Silver, and Gold layers</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="architecture-diagram">
+                                <div class="arch-sources">
+                                    <div class="arch-source">
+                                        <i class="fas fa-file-csv"></i>
+                                        <span>CSV Files</span>
+                                    </div>
+                                    <div class="arch-source">
+                                        <i class="fas fa-database"></i>
+                                        <span>CRM + ERP</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="arch-arrow">
+                                    <div class="arrow-line"></div>
+                                    <span>COPY</span>
+                                </div>
+                                
+                                <div class="arch-layer bronze">
+                                    <div class="layer-header">
+                                        <i class="fas fa-download"></i>
+                                        <h4>Bronze Layer</h4>
+                                    </div>
+                                    <p>Raw data as-is from sources</p>
+                                    <div class="layer-stats">
+                                        <span><i class="fas fa-table"></i> 6 tables</span>
+                                        <span><i class="fas fa-database"></i> ~116K rows</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="arch-arrow">
+                                    <div class="arrow-line"></div>
+                                    <span>TRANSFORM</span>
+                                </div>
+                                
+                                <div class="arch-layer silver">
+                                    <div class="layer-header">
+                                        <i class="fas fa-filter"></i>
+                                        <h4>Silver Layer</h4>
+                                    </div>
+                                    <p>Cleansed & standardized</p>
+                                    <div class="layer-stats">
+                                        <span><i class="fas fa-broom"></i> Deduplicated</span>
+                                        <span><i class="fas fa-check"></i> Validated</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="arch-arrow">
+                                    <div class="arrow-line"></div>
+                                    <span>MODEL</span>
+                                </div>
+                                
+                                <div class="arch-layer gold">
+                                    <div class="layer-header">
+                                        <i class="fas fa-crown"></i>
+                                        <h4>Gold Layer</h4>
+                                    </div>
+                                    <p>Star schema for analytics</p>
+                                    <div class="layer-stats">
+                                        <span><i class="fas fa-cube"></i> 2 dimensions</span>
+                                        <span><i class="fas fa-chart-bar"></i> 1 fact</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETL Pipeline -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-code-branch"></i> ETL Pipeline Execution</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="pipeline-steps">
+                                <div class="pipeline-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h4>Database Initialization</h4>
+                                        <p>Create database and schemas</p>
+                                        <code>CREATE DATABASE datawarehouse;</code>
+                                        <code>CREATE SCHEMA bronze, silver, gold;</code>
+                                    </div>
+                                </div>
+                                <div class="pipeline-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h4>Bronze Load</h4>
+                                        <p>Bulk load CSV files into raw tables</p>
+                                        <code>CALL bronze.load_bronze();</code>
+                                    </div>
+                                </div>
+                                <div class="pipeline-step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <h4>Silver Transform</h4>
+                                        <p>Apply business rules and cleansing</p>
+                                        <code>CALL silver.load_silver();</code>
+                                    </div>
+                                </div>
+                                <div class="pipeline-step">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <h4>Gold Model</h4>
+                                        <p>Create star schema views</p>
+                                        <code>CREATE VIEW gold.dim_customers...</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== BRONZE SECTION ==================== -->
+                <section id="section-bronze" class="content-section">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1><span class="layer-badge bronze">Bronze</span> Raw Data Layer</h1>
+                            <p>Raw data ingested as-is from source systems without any transformation</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Purpose</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>The Bronze layer serves as the <strong>landing zone</strong> for all source data. Data is loaded exactly as received from the source systems using PostgreSQL's <code>COPY</code> command for efficient bulk loading.</p>
+                            <div class="info-box">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Bronze layer maintains <strong>full data lineage</strong> - you can always trace back to the original source data.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-table"></i> Bronze Tables</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="tables-grid">
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.crm_cust_info</span>
+                                        <span class="table-badge">CRM</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 18,484 rows</span>
+                                    </div>
+                                    <p>Customer master data from CRM system</p>
+                                </div>
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.crm_prd_info</span>
+                                        <span class="table-badge">CRM</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 397 rows</span>
+                                    </div>
+                                    <p>Product catalog from CRM system</p>
+                                </div>
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.crm_sales_details</span>
+                                        <span class="table-badge">CRM</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 60,398 rows</span>
+                                    </div>
+                                    <p>Sales transactions from CRM system</p>
+                                </div>
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.erp_cust_az12</span>
+                                        <span class="table-badge erp">ERP</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 18,484 rows</span>
+                                    </div>
+                                    <p>Customer demographics from ERP</p>
+                                </div>
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.erp_loc_a101</span>
+                                        <span class="table-badge erp">ERP</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 18,484 rows</span>
+                                    </div>
+                                    <p>Customer location/country data</p>
+                                </div>
+                                <div class="table-card">
+                                    <div class="table-header">
+                                        <span class="table-name">bronze.erp_px_cat_g1v2</span>
+                                        <span class="table-badge erp">ERP</span>
+                                    </div>
+                                    <div class="table-meta">
+                                        <span><i class="fas fa-rows"></i> 37 rows</span>
+                                    </div>
+                                    <p>Product category hierarchy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== SILVER SECTION ==================== -->
+                <section id="section-silver" class="content-section">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1><span class="layer-badge silver">Silver</span> Cleansed Data Layer</h1>
+                            <p>Data cleansing, standardization, and business rule application</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Purpose</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>The Silver layer represents <strong>cleansed, standardized, and trusted data</strong>. This layer sits between the raw Bronze layer and the analytical Gold layer, applying business rules and data quality transformations.</p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Transformations -->
+                    <div class="card transformation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-users"></i> Customer Transformations</h3>
+                            <span class="table-tag">silver.crm_cust_info</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="transformation-grid">
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-copy"></i>
+                                        <h4>Deduplication</h4>
+                                    </div>
+                                    <p>Keep only the latest record per customer using ROW_NUMBER()</p>
+                                    <div class="code-block">
+                                        <pre>ROW_NUMBER() OVER (
+    PARTITION BY cst_id 
+    ORDER BY cst_create_date DESC
+) AS rn
+-- Keep WHERE rn = 1</pre>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-text-width"></i>
+                                        <h4>Whitespace Trimming</h4>
+                                    </div>
+                                    <p>Remove leading/trailing spaces from names</p>
+                                    <div class="code-block">
+                                        <pre>TRIM(cst_firstname) AS first_name,
+TRIM(cst_lastname) AS last_name</pre>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-venus-mars"></i>
+                                        <h4>Gender Standardization</h4>
+                                    </div>
+                                    <p>Convert codes to readable values</p>
+                                    <div class="code-block">
+                                        <pre>CASE
+  WHEN UPPER(TRIM(cst_gndr)) = 'F' THEN 'Female'
+  WHEN UPPER(TRIM(cst_gndr)) = 'M' THEN 'Male'
+  ELSE 'n/a'
+END AS gender</pre>
+                                    </div>
+                                    <div class="transform-example">
+                                        <span class="before">'M'</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="after">'Male'</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-ring"></i>
+                                        <h4>Marital Status Standardization</h4>
+                                    </div>
+                                    <p>Convert abbreviations to full text</p>
+                                    <div class="code-block">
+                                        <pre>CASE
+  WHEN UPPER(TRIM(cst_marital_status)) = 'S' 
+       THEN 'Single'
+  WHEN UPPER(TRIM(cst_marital_status)) = 'M' 
+       THEN 'Married'
+  ELSE 'n/a'
+END AS marital_status</pre>
+                                    </div>
+                                    <div class="transform-example">
+                                        <span class="before">'S'</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="after">'Single'</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Transformations -->
+                    <div class="card transformation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-box"></i> Product Transformations</h3>
+                            <span class="table-tag">silver.crm_prd_info</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="transformation-grid">
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-link"></i>
+                                        <h4>Category ID Extraction</h4>
+                                    </div>
+                                    <p>Extract category ID for ERP joins</p>
+                                    <div class="code-block">
+                                        <pre>REPLACE(
+  SUBSTRING(prd_key FROM 1 FOR 5), 
+  '-', '_'
+) AS cat_id</pre>
+                                    </div>
+                                    <div class="transform-example">
+                                        <span class="before">'AC-HE-123'</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="after">'AC_HE'</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-road"></i>
+                                        <h4>Product Line Expansion</h4>
+                                    </div>
+                                    <p>Convert codes to readable names</p>
+                                    <div class="code-block">
+                                        <pre>CASE
+  WHEN UPPER(TRIM(prd_line)) = 'M' THEN 'Mountain'
+  WHEN UPPER(TRIM(prd_line)) = 'R' THEN 'Road'
+  WHEN UPPER(TRIM(prd_line)) = 'T' THEN 'Touring'
+  WHEN UPPER(TRIM(prd_line)) = 'S' THEN 'Other Sales'
+  ELSE 'n/a'
+END AS product_line</pre>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <h4>SCD-2 End Date Fix</h4>
+                                    </div>
+                                    <p>Calculate end dates using LEAD() for slowly changing dimensions</p>
+                                    <div class="code-block">
+                                        <pre>(LEAD(prd_start_dt) OVER (
+    PARTITION BY prd_key 
+    ORDER BY prd_start_dt
+) - INTERVAL '1 day')::DATE AS prd_end_dt</pre>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <h4>Null Cost Handling</h4>
+                                    </div>
+                                    <p>Replace NULL costs with 0</p>
+                                    <div class="code-block">
+                                        <pre>COALESCE(prd_cost, 0) AS cost</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sales Transformations -->
+                    <div class="card transformation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shopping-cart"></i> Sales Transformations</h3>
+                            <span class="table-tag">silver.crm_sales_details</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="transformation-grid">
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-calendar"></i>
+                                        <h4>Date Conversion</h4>
+                                    </div>
+                                    <p>Convert integer dates (YYYYMMDD) to DATE type</p>
+                                    <div class="code-block">
+                                        <pre>CASE 
+  WHEN sls_order_dt = 0 
+    OR LENGTH(sls_order_dt::text) <> 8 
+  THEN NULL
+  ELSE TO_DATE(sls_order_dt::text, 'YYYYMMDD') 
+END AS order_date</pre>
+                                    </div>
+                                    <div class="transform-example">
+                                        <span class="before">20110105</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="after">2011-01-05</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-calculator"></i>
+                                        <h4>Sales Recalculation</h4>
+                                    </div>
+                                    <p>Enforce: Sales = Quantity × Price</p>
+                                    <div class="code-block">
+                                        <pre>CASE
+  WHEN sls_sales IS NULL 
+    OR sls_sales <= 0
+    OR sls_sales <> sls_quantity * ABS(sls_price)
+  THEN sls_quantity * ABS(sls_price)
+  ELSE sls_sales
+END AS sales_amount</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ERP Transformations -->
+                    <div class="card transformation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-building"></i> ERP Data Transformations</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="transformation-grid">
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-id-card"></i>
+                                        <h4>Customer ID Cleanup</h4>
+                                    </div>
+                                    <p>Remove NAS prefix for CRM-ERP joins</p>
+                                    <div class="code-block">
+                                        <pre>CASE 
+  WHEN cid LIKE 'NAS%' 
+  THEN SUBSTRING(cid FROM 4) 
+  ELSE cid 
+END AS customer_id</pre>
+                                    </div>
+                                    <div class="transform-example">
+                                        <span class="before">'NAS12345'</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="after">'12345'</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-globe"></i>
+                                        <h4>Country Code Expansion</h4>
+                                    </div>
+                                    <p>Convert country codes to full names</p>
+                                    <div class="code-block">
+                                        <pre>CASE
+  WHEN TRIM(cntry) = 'DE' THEN 'Germany'
+  WHEN TRIM(cntry) IN ('US','USA') 
+       THEN 'United States'
+  WHEN cntry IS NULL OR TRIM(cntry) = '' 
+       THEN 'n/a'
+  ELSE TRIM(cntry)
+END AS country</pre>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-header">
+                                        <i class="fas fa-birthday-cake"></i>
+                                        <h4>Birth Date Validation</h4>
+                                    </div>
+                                    <p>Replace future dates with NULL</p>
+                                    <div class="code-block">
+                                        <pre>CASE 
+  WHEN bdate > CURRENT_DATE 
+  THEN NULL 
+  ELSE bdate 
+END AS birth_date</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== GOLD SECTION ==================== -->
+                <section id="section-gold" class="content-section">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1><span class="layer-badge gold">Gold</span> Analytics Layer</h1>
+                            <p>Star schema optimized for business intelligence and reporting</p>
+                        </div>
+                    </div>
+
+                    <!-- Star Schema Diagram -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-project-diagram"></i> Star Schema Design</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="star-schema">
+                                <div class="schema-dim left">
+                                    <div class="schema-table-card dim">
+                                        <div class="schema-header">
+                                            <i class="fas fa-users"></i>
+                                            <span>dim_customers</span>
+                                        </div>
+                                        <div class="schema-columns">
+                                            <div class="schema-col pk"><i class="fas fa-key"></i> customer_key</div>
+                                            <div class="schema-col">customer_id</div>
+                                            <div class="schema-col">customer_number</div>
+                                            <div class="schema-col">first_name</div>
+                                            <div class="schema-col">last_name</div>
+                                            <div class="schema-col">marital_status</div>
+                                            <div class="schema-col">gender</div>
+                                            <div class="schema-col">birth_date</div>
+                                            <div class="schema-col">country</div>
+                                            <div class="schema-col">create_date</div>
+                                        </div>
+                                        <div class="schema-meta">18,484 rows</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="schema-fact">
+                                    <div class="schema-table-card fact">
+                                        <div class="schema-header">
+                                            <i class="fas fa-chart-line"></i>
+                                            <span>fact_sales</span>
+                                        </div>
+                                        <div class="schema-columns">
+                                            <div class="schema-col">order_number</div>
+                                            <div class="schema-col fk"><i class="fas fa-link"></i> product_key</div>
+                                            <div class="schema-col fk"><i class="fas fa-link"></i> customer_key</div>
+                                            <div class="schema-col">order_date</div>
+                                            <div class="schema-col">shipping_date</div>
+                                            <div class="schema-col">due_date</div>
+                                            <div class="schema-col">sales_amount</div>
+                                            <div class="schema-col">quantity</div>
+                                            <div class="schema-col">price</div>
+                                        </div>
+                                        <div class="schema-meta">60,398 rows</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="schema-dim right">
+                                    <div class="schema-table-card dim">
+                                        <div class="schema-header">
+                                            <i class="fas fa-box"></i>
+                                            <span>dim_products</span>
+                                        </div>
+                                        <div class="schema-columns">
+                                            <div class="schema-col pk"><i class="fas fa-key"></i> product_key</div>
+                                            <div class="schema-col">product_id</div>
+                                            <div class="schema-col">product_number</div>
+                                            <div class="schema-col">product_name</div>
+                                            <div class="schema-col">category_id</div>
+                                            <div class="schema-col">category</div>
+                                            <div class="schema-col">subcategory</div>
+                                            <div class="schema-col">maintenance</div>
+                                            <div class="schema-col">cost</div>
+                                            <div class="schema-col">product_line</div>
+                                            <div class="schema-col">start_date</div>
+                                        </div>
+                                        <div class="schema-meta">295 rows</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== dim_customers Query & Result ========== -->
+                    <div class="card query-result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-users"></i> gold.dim_customers</h3>
+                            <div class="query-meta">
+                                <span class="row-count"><i class="fas fa-database"></i> Total rows: 18,484</span>
+                                <span class="query-time"><i class="fas fa-clock"></i> 0.078s</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="query-section">
+                                <div class="query-label">
+                                    <i class="fas fa-code"></i> SQL Query
+                                </div>
+                                <div class="code-block sql-editor">
+                                    <pre><span class="sql-keyword">CREATE VIEW</span> gold.dim_customers <span class="sql-keyword">AS</span>
+<span class="sql-keyword">SELECT</span>
+    <span class="sql-function">ROW_NUMBER</span>() <span class="sql-keyword">OVER</span> (<span class="sql-keyword">ORDER BY</span> cst_id) <span class="sql-keyword">AS</span> customer_key,
+    ci.cst_id            <span class="sql-keyword">AS</span> customer_id,
+    ci.cst_key           <span class="sql-keyword">AS</span> customer_number,
+    ci.cst_firstname     <span class="sql-keyword">AS</span> first_name,
+    ci.cst_lastname      <span class="sql-keyword">AS</span> last_name,
+    ci.cst_marital_status <span class="sql-keyword">AS</span> marital_status,
+    <span class="sql-keyword">CASE</span> 
+        <span class="sql-keyword">WHEN</span> ci.cst_gndr <> <span class="sql-string">'n/a'</span> <span class="sql-keyword">THEN</span> ci.cst_gndr  <span class="sql-comment">-- CRM is master gender</span>
+        <span class="sql-keyword">ELSE</span> <span class="sql-function">COALESCE</span>(ca.gen, <span class="sql-string">'n/a'</span>)
+    <span class="sql-keyword">END</span> <span class="sql-keyword">AS</span> new_gen,
+    ci.cst_create_date   <span class="sql-keyword">AS</span> create_date,
+    ca.bdate             <span class="sql-keyword">AS</span> birth_date,
+    la.cntry             <span class="sql-keyword">AS</span> country
+<span class="sql-keyword">FROM</span> silver.crm_cust_info ci
+<span class="sql-keyword">LEFT JOIN</span> silver.erp_cust_az12 ca <span class="sql-keyword">ON</span> ci.cst_key = ca.cid
+<span class="sql-keyword">LEFT JOIN</span> silver.erp_loc_a101 la <span class="sql-keyword">ON</span> ci.cst_key = la.cid;</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="result-section">
+                                <div class="result-label">
+                                    <i class="fas fa-table"></i> Query Results
+                                    <span class="showing">Showing rows 1 to 14 of 18,484</span>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table result-table">
+                                        <thead>
+                                            <tr>
+                                                <th>customer_key<br><span class="col-type">bigint</span></th>
+                                                <th>customer_id<br><span class="col-type">integer</span></th>
+                                                <th>customer_number<br><span class="col-type">varchar(50)</span></th>
+                                                <th>first_name<br><span class="col-type">varchar(50)</span></th>
+                                                <th>last_name<br><span class="col-type">varchar(50)</span></th>
+                                                <th>marital_status<br><span class="col-type">varchar(50)</span></th>
+                                                <th>new_gen<br><span class="col-type">varchar(50)</span></th>
+                                                <th>create_date<br><span class="col-type">date</span></th>
+                                                <th>birth_date<br><span class="col-type">date</span></th>
+                                                <th>country<br><span class="col-type">varchar(50)</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>1</td><td>11000</td><td>AW00011000</td><td>Jon</td><td>Yang</td><td>Married</td><td>Male</td><td>2025-10-06</td><td>1971-10-06</td><td>Australia</td></tr>
+                                            <tr><td>2</td><td>11001</td><td>AW00011001</td><td>Eugene</td><td>Huang</td><td>Single</td><td>Male</td><td>2025-10-06</td><td>1976-05-10</td><td>Australia</td></tr>
+                                            <tr><td>3</td><td>11002</td><td>AW00011002</td><td>Ruben</td><td>Torres</td><td>Married</td><td>Male</td><td>2025-10-06</td><td>1971-02-09</td><td>Australia</td></tr>
+                                            <tr><td>4</td><td>11003</td><td>AW00011003</td><td>Christy</td><td>Zhu</td><td>Single</td><td>Female</td><td>2025-10-06</td><td>1973-08-14</td><td>Australia</td></tr>
+                                            <tr><td>5</td><td>11004</td><td>AW00011004</td><td>Elizabeth</td><td>Johnson</td><td>Single</td><td>Female</td><td>2025-10-06</td><td>1979-08-05</td><td>Australia</td></tr>
+                                            <tr><td>6</td><td>11005</td><td>AW00011005</td><td>Julio</td><td>Ruiz</td><td>Single</td><td>Male</td><td>2025-10-06</td><td>1976-08-01</td><td>Australia</td></tr>
+                                            <tr><td>7</td><td>11006</td><td>AW00011006</td><td>Janet</td><td>Alvarez</td><td>Single</td><td>Female</td><td>2025-10-06</td><td>1976-12-02</td><td>Australia</td></tr>
+                                            <tr><td>8</td><td>11007</td><td>AW00011007</td><td>Marco</td><td>Mehta</td><td>Married</td><td>Male</td><td>2025-10-06</td><td>1969-11-06</td><td>Australia</td></tr>
+                                            <tr><td>9</td><td>11008</td><td>AW00011008</td><td>Rob</td><td>Verhoff</td><td>Single</td><td>Male</td><td>2025-10-06</td><td>1975-07-04</td><td>Australia</td></tr>
+                                            <tr><td>10</td><td>11009</td><td>AW00011009</td><td>Shannon</td><td>Carlson</td><td>Single</td><td>Male</td><td>2025-10-06</td><td>1969-09-29</td><td>Australia</td></tr>
+                                            <tr><td>11</td><td>11010</td><td>AW00011010</td><td>Jacquelyn</td><td>Suarez</td><td>Single</td><td>Female</td><td>2025-10-06</td><td>1979-08-05</td><td>Australia</td></tr>
+                                            <tr><td>12</td><td>11011</td><td>AW00011011</td><td>Curtis</td><td>Lu</td><td>Married</td><td>Male</td><td>2025-10-06</td><td>1975-05-03</td><td>Australia</td></tr>
+                                            <tr><td>13</td><td>11012</td><td>AW00011012</td><td>Lauren</td><td>Walker</td><td>Married</td><td>Female</td><td>2025-10-06</td><td>1979-01-14</td><td>United States</td></tr>
+                                            <tr><td>14</td><td>11013</td><td>AW00011013</td><td>Ian</td><td>Jenkins</td><td>Married</td><td>Male</td><td>2025-10-06</td><td>1979-08-03</td><td>United States</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== dim_products Query & Result ========== -->
+                    <div class="card query-result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-box"></i> gold.dim_products</h3>
+                            <div class="query-meta">
+                                <span class="row-count"><i class="fas fa-database"></i> Total rows: 295</span>
+                                <span class="query-time"><i class="fas fa-clock"></i> 0.067s</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="query-section">
+                                <div class="query-label">
+                                    <i class="fas fa-code"></i> SQL Query
+                                </div>
+                                <div class="code-block sql-editor">
+                                    <pre><span class="sql-keyword">CREATE VIEW</span> gold.dim_products <span class="sql-keyword">AS</span>
+<span class="sql-keyword">SELECT</span>
+    <span class="sql-function">ROW_NUMBER</span>() <span class="sql-keyword">OVER</span> (<span class="sql-keyword">ORDER BY</span> pn.prd_start_dt, pn.prd_key) <span class="sql-keyword">AS</span> product_key, <span class="sql-comment">-- Surrogate key</span>
+    pn.prd_id            <span class="sql-keyword">AS</span> product_id,
+    pn.prd_key           <span class="sql-keyword">AS</span> product_number,
+    pn.prd_nm            <span class="sql-keyword">AS</span> product_name,
+    pn.cat_id            <span class="sql-keyword">AS</span> category_id,
+    pc.cat               <span class="sql-keyword">AS</span> category,
+    pc.subcat            <span class="sql-keyword">AS</span> subcategory,
+    pc.maintenance       <span class="sql-keyword">AS</span> maintenance,
+    pn.prd_cost          <span class="sql-keyword">AS</span> cost,
+    pn.prd_line          <span class="sql-keyword">AS</span> product_line,
+    pn.prd_start_dt      <span class="sql-keyword">AS</span> start_date
+<span class="sql-keyword">FROM</span> silver.crm_prd_info pn
+<span class="sql-keyword">LEFT JOIN</span> silver.erp_px_cat_g1v2 pc <span class="sql-keyword">ON</span> pn.cat_id = pc.id
+<span class="sql-keyword">WHERE</span> prd_end_dt <span class="sql-keyword">IS NULL</span>; <span class="sql-comment">-- filter out historical data</span></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="result-section">
+                                <div class="result-label">
+                                    <i class="fas fa-table"></i> Query Results
+                                    <span class="showing">Showing rows 1 to 14 of 295</span>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table result-table">
+                                        <thead>
+                                            <tr>
+                                                <th>product_key<br><span class="col-type">bigint</span></th>
+                                                <th>product_id<br><span class="col-type">integer</span></th>
+                                                <th>product_number<br><span class="col-type">varchar(50)</span></th>
+                                                <th>product_name<br><span class="col-type">varchar(50)</span></th>
+                                                <th>category_id<br><span class="col-type">varchar(50)</span></th>
+                                                <th>category<br><span class="col-type">varchar(50)</span></th>
+                                                <th>subcategory<br><span class="col-type">varchar(50)</span></th>
+                                                <th>maintenance<br><span class="col-type">varchar(50)</span></th>
+                                                <th>cost<br><span class="col-type">integer</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>1</td><td>210</td><td>FR-R92B-58</td><td>HL Road Frame - Black- 58</td><td>CO_RF</td><td>Components</td><td>Road Frames</td><td>Yes</td><td>0</td></tr>
+                                            <tr><td>2</td><td>211</td><td>FR-R92R-58</td><td>HL Road Frame - Red- 58</td><td>CO_RF</td><td>Components</td><td>Road Frames</td><td>Yes</td><td>0</td></tr>
+                                            <tr><td>3</td><td>348</td><td>BK-M82B-38</td><td>Mountain-100 Black- 38</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1898</td></tr>
+                                            <tr><td>4</td><td>349</td><td>BK-M82B-42</td><td>Mountain-100 Black- 42</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1898</td></tr>
+                                            <tr><td>5</td><td>350</td><td>BK-M82B-44</td><td>Mountain-100 Black- 44</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1898</td></tr>
+                                            <tr><td>6</td><td>351</td><td>BK-M82B-48</td><td>Mountain-100 Black- 48</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1898</td></tr>
+                                            <tr><td>7</td><td>344</td><td>BK-M82S-38</td><td>Mountain-100 Silver- 38</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1912</td></tr>
+                                            <tr><td>8</td><td>345</td><td>BK-M82S-42</td><td>Mountain-100 Silver- 42</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1912</td></tr>
+                                            <tr><td>9</td><td>346</td><td>BK-M82S-44</td><td>Mountain-100 Silver- 44</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1912</td></tr>
+                                            <tr><td>10</td><td>347</td><td>BK-M82S-48</td><td>Mountain-100 Silver- 48</td><td>BI_MB</td><td>Bikes</td><td>Mountain Bikes</td><td>Yes</td><td>1912</td></tr>
+                                            <tr><td>11</td><td>317</td><td>BK-R68R-44</td><td>Road-450 Red- 44</td><td>BI_RB</td><td>Bikes</td><td>Road Bikes</td><td>Yes</td><td>885</td></tr>
+                                            <tr><td>12</td><td>318</td><td>BK-R68R-48</td><td>Road-450 Red- 48</td><td>BI_RB</td><td>Bikes</td><td>Road Bikes</td><td>Yes</td><td>885</td></tr>
+                                            <tr><td>13</td><td>319</td><td>BK-R68R-52</td><td>Road-450 Red- 52</td><td>BI_RB</td><td>Bikes</td><td>Road Bikes</td><td>Yes</td><td>885</td></tr>
+                                            <tr><td>14</td><td>315</td><td>BK-R68R-58</td><td>Road-450 Red- 58</td><td>BI_RB</td><td>Bikes</td><td>Road Bikes</td><td>Yes</td><td>885</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== fact_sales Query & Result ========== -->
+                    <div class="card query-result-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> gold.fact_sales</h3>
+                            <div class="query-meta">
+                                <span class="row-count"><i class="fas fa-database"></i> Total rows: 60,398</span>
+                                <span class="query-time"><i class="fas fa-clock"></i> 0.468s</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="query-section">
+                                <div class="query-label">
+                                    <i class="fas fa-code"></i> SQL Query
+                                </div>
+                                <div class="code-block sql-editor">
+                                    <pre><span class="sql-comment">-- Fact Table</span>
+<span class="sql-keyword">CREATE VIEW</span> gold.fact_sales <span class="sql-keyword">AS</span>
+<span class="sql-keyword">SELECT</span>
+    sd.sls_ord_num       <span class="sql-keyword">AS</span> order_number,
+    pr.product_key       <span class="sql-keyword">AS</span> product_key,
+    cu.customer_key      <span class="sql-keyword">AS</span> customer_key,
+    sd.sls_order_dt      <span class="sql-keyword">AS</span> order_date,
+    sd.sls_ship_dt       <span class="sql-keyword">AS</span> shipping_date,
+    sd.sls_due_dt        <span class="sql-keyword">AS</span> due_date,
+    sd.sls_sales         <span class="sql-keyword">AS</span> sales_amount,
+    sd.sls_quantity      <span class="sql-keyword">AS</span> quantity,
+    sd.sls_price         <span class="sql-keyword">AS</span> price
+<span class="sql-keyword">FROM</span> silver.crm_sales_details sd
+<span class="sql-keyword">LEFT JOIN</span> gold.dim_products pr <span class="sql-keyword">ON</span> sd.sls_prd_key = pr.product_number
+<span class="sql-keyword">LEFT JOIN</span> gold.dim_customers cu <span class="sql-keyword">ON</span> sd.sls_cust_id = cu.customer_id;</pre>
+                                </div>
+                            </div>
+                            
+                            <div class="result-section">
+                                <div class="result-label">
+                                    <i class="fas fa-table"></i> Query Results
+                                    <span class="showing">Showing rows 1 to 15 of 60,398</span>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table result-table">
+                                        <thead>
+                                            <tr>
+                                                <th>order_number<br><span class="col-type">varchar(50)</span></th>
+                                                <th>product_key<br><span class="col-type">bigint</span></th>
+                                                <th>customer_key<br><span class="col-type">bigint</span></th>
+                                                <th>order_date<br><span class="col-type">date</span></th>
+                                                <th>shipping_date<br><span class="col-type">date</span></th>
+                                                <th>due_date<br><span class="col-type">date</span></th>
+                                                <th>sales_amount<br><span class="col-type">integer</span></th>
+                                                <th>quantity<br><span class="col-type">integer</span></th>
+                                                <th>price<br><span class="col-type">integer</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>SO43697</td><td>20</td><td>10769</td><td>2010-12-29</td><td>2011-01-05</td><td>2011-01-10</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43698</td><td>9</td><td>17390</td><td>2010-12-29</td><td>2011-01-05</td><td>2011-01-10</td><td>3400</td><td>1</td><td>3400</td></tr>
+                                            <tr><td>SO43699</td><td>9</td><td>14864</td><td>2010-12-29</td><td>2011-01-05</td><td>2011-01-10</td><td>3400</td><td>1</td><td>3400</td></tr>
+                                            <tr><td>SO43700</td><td>41</td><td>3502</td><td>2010-12-29</td><td>2011-01-05</td><td>2011-01-10</td><td>699</td><td>1</td><td>699</td></tr>
+                                            <tr><td>SO43701</td><td>9</td><td>4</td><td>2010-12-29</td><td>2011-01-05</td><td>2011-01-10</td><td>3400</td><td>1</td><td>3400</td></tr>
+                                            <tr><td>SO43702</td><td>16</td><td>16646</td><td>2010-12-30</td><td>2011-01-06</td><td>2011-01-11</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43703</td><td>20</td><td>5625</td><td>2010-12-30</td><td>2011-01-06</td><td>2011-01-11</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43704</td><td>6</td><td>6</td><td>2010-12-30</td><td>2011-01-06</td><td>2011-01-11</td><td>3375</td><td>1</td><td>3375</td></tr>
+                                            <tr><td>SO43705</td><td>7</td><td>12</td><td>2010-12-30</td><td>2011-01-06</td><td>2011-01-11</td><td>3400</td><td>1</td><td>3400</td></tr>
+                                            <tr><td>SO43706</td><td>17</td><td>16622</td><td>2010-12-31</td><td>2011-01-07</td><td>2011-01-12</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43707</td><td>17</td><td>16617</td><td>2010-12-31</td><td>2011-01-07</td><td>2011-01-12</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43708</td><td>44</td><td>9043</td><td>2010-12-31</td><td>2011-01-07</td><td>2011-01-12</td><td>699</td><td>1</td><td>699</td></tr>
+                                            <tr><td>SO43709</td><td>18</td><td>5352</td><td>2010-12-31</td><td>2011-01-07</td><td>2011-01-12</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43710</td><td>19</td><td>5518</td><td>2010-12-31</td><td>2011-01-07</td><td>2011-01-12</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                            <tr><td>SO43711</td><td>19</td><td>16607</td><td>2011-01-01</td><td>2011-01-08</td><td>2011-01-13</td><td>3578</td><td>1</td><td>3578</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================== QUALITY SECTION ==================== -->
+                <section id="section-quality" class="content-section">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h1>Data Quality Framework</h1>
+                            <p>Comprehensive validation checks ensuring data integrity at every layer</p>
+                        </div>
+                    </div>
+
+                    <div class="quality-summary">
+                        <div class="quality-score-card">
+                            <div class="score-ring">
+                                <svg viewBox="0 0 100 100">
+                                    <circle class="ring-bg" cx="50" cy="50" r="40"/>
+                                    <circle class="ring-progress" cx="50" cy="50" r="40"/>
+                                </svg>
+                                <div class="score-text">
+                                    <span class="score-value">100%</span>
+                                    <span class="score-label">All Checks Passed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quality-stats">
+                            <div class="quality-stat">
+                                <span class="stat-number">15</span>
+                                <span class="stat-label">Quality Checks</span>
+                            </div>
+                            <div class="quality-stat">
+                                <span class="stat-number">15</span>
+                                <span class="stat-label">Passed</span>
+                            </div>
+                            <div class="quality-stat">
+                                <span class="stat-number">0</span>
+                                <span class="stat-label">Failed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-shield-check"></i> Silver Layer Quality Checks</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="checks-list">
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Primary Key Integrity</span>
+                                        <span class="check-desc">No NULL or duplicate values in cst_id</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Whitespace Validation</span>
+                                        <span class="check-desc">No leading/trailing spaces in text fields</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Gender Standardization</span>
+                                        <span class="check-desc">All values are Male, Female, or n/a</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Marital Status Standardization</span>
+                                        <span class="check-desc">All values are Single, Married, or n/a</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Date Range Validation</span>
+                                        <span class="check-desc">Birth dates within valid range (1924 - today)</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Sales Calculation Check</span>
+                                        <span class="check-desc">Sales = Quantity × Price for all records</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-crown"></i> Gold Layer Quality Checks</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="checks-list">
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Customer Key Uniqueness</span>
+                                        <span class="check-desc">All customer_key values are unique in dim_customers</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Product Key Uniqueness</span>
+                                        <span class="check-desc">All product_key values are unique in dim_products</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">Referential Integrity</span>
+                                        <span class="check-desc">All foreign keys in fact_sales resolve to dimensions</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                                <div class="check-item passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="check-info">
+                                        <span class="check-name">No Orphan Records</span>
+                                        <span class="check-desc">Zero orphaned records in fact table</span>
+                                    </div>
+                                    <span class="check-status">PASSED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-code"></i> Sample Quality Check Query</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="code-block large">
+                                <pre>-- Check for orphaned fact records (referential integrity)
+SELECT 
+    'Orphaned Records' AS check_name,
+    COUNT(*) AS violations
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+WHERE p.product_key IS NULL 
+   OR c.customer_key IS NULL;
+
+-- Expected Result: 0 violations ✓</pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

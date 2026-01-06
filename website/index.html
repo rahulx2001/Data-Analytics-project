@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightFlow | Data Warehouse Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-database"></i>
+                <span>InsightFlow</span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#etl" class="nav-link">ETL Pipeline</a>
+                <a href="#schema" class="nav-link">Star Schema</a>
+                <a href="#playground" class="nav-link">SQL Playground</a>
+                <a href="#quality" class="nav-link">Quality</a>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="grid-lines"></div>
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-rocket"></i>
+                <span>Case Study</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">InsightFlow</span>
+                <br>Data Warehouse
+            </h1>
+            <p class="hero-subtitle">
+                Enterprise-grade ETL pipeline with Medallion Architecture, 
+                Star Schema modeling, and comprehensive data quality framework
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="6">0</div>
+                    <div class="stat-label">Source Tables</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="3">0</div>
+                    <div class="stat-label">Data Layers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="18750">0</div>
+                    <div class="stat-label">Records Processed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="15">0</div>
+                    <div class="stat-label">Quality Checks</div>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#playground" class="btn btn-primary">
+                    <i class="fas fa-play"></i>
+                    Try SQL Playground
+                </a>
+                <a href="https://github.com/rahulx2001/InsightFlow" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-github"></i>
+                    View Source
+                </a>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge"><i class="fas fa-database"></i> PostgreSQL</span>
+                <span class="tech-badge"><i class="fas fa-code"></i> SQL</span>
+                <span class="tech-badge"><i class="fas fa-layer-group"></i> Medallion</span>
+                <span class="tech-badge"><i class="fas fa-star"></i> Star Schema</span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section" id="overview">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Overview</span>
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Building an enterprise data warehouse from scratch</p>
+            </div>
+            
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-icon bronze">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>Data Ingestion</h3>
+                    <p>Raw data from CRM and ERP systems loaded into Bronze layer without transformation</p>
+                    <div class="card-stats">
+                        <span><i class="fas fa-table"></i> 6 Tables</span>
+                        <span><i class="fas fa-file-csv"></i> CSV Sources</span>
+                    </div>
+                </div>
+                
+                <div class="overview-card">
+                    <div class="card-icon silver">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h3>Data Cleansing</h3>
+                    <p>Deduplication, standardization, and business rule application in Silver layer</p>
+                    <div class="card-stats">
+                        <span><i class="fas fa-check-double"></i> Validated</span>
+                        <span><i class="fas fa-sync"></i> Standardized</span>
+                    </div>
+                </div>
+                
+                <div class="overview-card">
+                    <div class="card-icon gold">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Analytics Ready</h3>
+                    <p>Star schema with dimension and fact tables optimized for BI queries</p>
+                    <div class="card-stats">
+                        <span><i class="fas fa-cube"></i> 2 Dimensions</span>
+                        <span><i class="fas fa-chart-bar"></i> 1 Fact Table</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-sources">
+                <h3 class="subsection-title">
+                    <i class="fas fa-plug"></i>
+                    Data Sources
+                </h3>
+                <div class="sources-container">
+                    <div class="source-group">
+                        <div class="source-header crm">
+                            <i class="fas fa-users"></i>
+                            <span>CRM System</span>
+                        </div>
+                        <div class="source-tables">
+                            <div class="table-item">
+                                <i class="fas fa-user"></i>
+                                <span>cust_info.csv</span>
+                                <span class="record-count">18,484 rows</span>
+                            </div>
+                            <div class="table-item">
+                                <i class="fas fa-box"></i>
+                                <span>prd_info.csv</span>
+                                <span class="record-count">397 rows</span>
+                            </div>
+                            <div class="table-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>sales_details.csv</span>
+                                <span class="record-count">60,398 rows</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="source-connector">
+                        <i class="fas fa-arrows-alt-h"></i>
+                    </div>
+                    <div class="source-group">
+                        <div class="source-header erp">
+                            <i class="fas fa-building"></i>
+                            <span>ERP System</span>
+                        </div>
+                        <div class="source-tables">
+                            <div class="table-item">
+                                <i class="fas fa-id-card"></i>
+                                <span>CUST_AZ12.csv</span>
+                                <span class="record-count">18,484 rows</span>
+                            </div>
+                            <div class="table-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>LOC_A101.csv</span>
+                                <span class="record-count">18,484 rows</span>
+                            </div>
+                            <div class="table-item">
+                                <i class="fas fa-tags"></i>
+                                <span>PX_CAT_G1V2.csv</span>
+                                <span class="record-count">37 rows</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="section section-dark" id="architecture">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Architecture</span>
+                <h2 class="section-title">Medallion Architecture</h2>
+                <p class="section-subtitle">Progressive data refinement through Bronze, Silver, and Gold layers</p>
+            </div>
+
+            <div class="architecture-flow">
+                <div class="arch-layer" data-layer="bronze">
+                    <div class="layer-header">
+                        <div class="layer-icon bronze">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Bronze Layer</h3>
+                        <span class="layer-badge">Raw Data</span>
+                    </div>
+                    <div class="layer-content">
+                        <p>Raw data ingestion without any transformation. Data is stored exactly as received from source systems.</p>
+                        <div class="layer-features">
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>As-is data storage</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Full data lineage</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Bulk CSV loading</span>
+                            </div>
+                        </div>
+                        <div class="layer-tables">
+                            <span class="table-tag">crm_cust_info</span>
+                            <span class="table-tag">crm_prd_info</span>
+                            <span class="table-tag">crm_sales_details</span>
+                            <span class="table-tag">erp_cust_az12</span>
+                            <span class="table-tag">erp_loc_a101</span>
+                            <span class="table-tag">erp_px_cat_g1v2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Transform</span>
+                </div>
+
+                <div class="arch-layer" data-layer="silver">
+                    <div class="layer-header">
+                        <div class="layer-icon silver">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <h3>Silver Layer</h3>
+                        <span class="layer-badge">Cleansed Data</span>
+                    </div>
+                    <div class="layer-content">
+                        <p>Data cleansing, standardization, and business rule application. Quality validated and consistent.</p>
+                        <div class="layer-features">
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Deduplication</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Standardization</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Null handling</span>
+                            </div>
+                        </div>
+                        <div class="transformation-example">
+                            <div class="transform-label">Example Transformation:</div>
+                            <code>'M' → 'Male' | 'F' → 'Female'</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Model</span>
+                </div>
+
+                <div class="arch-layer" data-layer="gold">
+                    <div class="layer-header">
+                        <div class="layer-icon gold">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Gold Layer</h3>
+                        <span class="layer-badge">Analytics Ready</span>
+                    </div>
+                    <div class="layer-content">
+                        <p>Business-level aggregates in star schema format. Optimized for analytics and BI tools.</p>
+                        <div class="layer-features">
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Star schema</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>Surrogate keys</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-check"></i>
+                                <span>BI optimized</span>
+                            </div>
+                        </div>
+                        <div class="layer-tables gold-tables">
+                            <span class="table-tag dim">dim_customers</span>
+                            <span class="table-tag dim">dim_products</span>
+                            <span class="table-tag fact">fact_sales</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ETL Pipeline Section -->
+    <section class="section" id="etl">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">ETL Pipeline</span>
+                <h2 class="section-title">Data Transformation Process</h2>
+                <p class="section-subtitle">Stored procedures for reliable, repeatable data processing</p>
+            </div>
+
+            <div class="etl-timeline">
+                <div class="timeline-item" data-step="1">
+                    <div class="timeline-marker">
+                        <span>1</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Database Initialization</h4>
+                        <p>Create database and schemas for each layer</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">SQL</span>
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code>CREATE DATABASE datawarehouse;
+
+CREATE SCHEMA bronze;
+CREATE SCHEMA silver;
+CREATE SCHEMA gold;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="2">
+                    <div class="timeline-marker">
+                        <span>2</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Bronze Layer Load</h4>
+                        <p>Bulk load CSV data into raw tables</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">SQL</span>
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code>CALL bronze.load_bronze();
+
+-- Internally executes:
+COPY bronze.crm_cust_info 
+FROM '/data/cust_info.csv' 
+WITH (FORMAT csv, HEADER true);</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="3">
+                    <div class="timeline-marker">
+                        <span>3</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Silver Layer Transform</h4>
+                        <p>Apply business rules and data quality transformations</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">SQL</span>
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code>CALL silver.load_silver();
+
+-- Transformations include:
+SELECT 
+    TRIM(cst_firstname) AS first_name,
+    CASE 
+        WHEN UPPER(cst_gndr) = 'M' THEN 'Male'
+        WHEN UPPER(cst_gndr) = 'F' THEN 'Female'
+        ELSE 'n/a'
+    END AS gender
+FROM bronze.crm_cust_info;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="4">
+                    <div class="timeline-marker">
+                        <span>4</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Gold Layer Model</h4>
+                        <p>Create star schema with dimensions and facts</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">SQL</span>
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code>-- Create dimension views
+CREATE VIEW gold.dim_customers AS
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY cst_id) AS customer_key,
+    ci.cst_id AS customer_id,
+    ci.cst_key AS customer_number,
+    ci.cst_firstname AS first_name,
+    ci.cst_lastname AS last_name,
+    ci.cst_marital_status AS marital_status,
+    ci.cst_gndr AS gender,
+    ca.bdate AS birth_date,
+    la.cntry AS country
+FROM silver.crm_cust_info ci
+LEFT JOIN silver.erp_cust_az12 ca 
+    ON ci.cst_key = ca.cid
+LEFT JOIN silver.erp_loc_a101 la 
+    ON ci.cst_key = la.cid;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Star Schema Section -->
+    <section class="section section-dark" id="schema">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Data Model</span>
+                <h2 class="section-title">Star Schema Design</h2>
+                <p class="section-subtitle">Optimized dimensional model for business intelligence</p>
+            </div>
+
+            <div class="schema-diagram">
+                <div class="schema-container">
+                    <!-- Dimension: Customers -->
+                    <div class="schema-table dimension" id="dim-customers">
+                        <div class="table-header">
+                            <i class="fas fa-users"></i>
+                            <span>dim_customers</span>
+                        </div>
+                        <div class="table-columns">
+                            <div class="column pk">
+                                <i class="fas fa-key"></i>
+                                <span>customer_key</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-hashtag"></i>
+                                <span>customer_id</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-id-badge"></i>
+                                <span>customer_number</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-user"></i>
+                                <span>first_name</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-user"></i>
+                                <span>last_name</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-ring"></i>
+                                <span>marital_status</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-venus-mars"></i>
+                                <span>gender</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-birthday-cake"></i>
+                                <span>birth_date</span>
+                                <span class="type">DATE</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-globe"></i>
+                                <span>country</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fact: Sales -->
+                    <div class="schema-table fact" id="fact-sales">
+                        <div class="table-header">
+                            <i class="fas fa-chart-line"></i>
+                            <span>fact_sales</span>
+                        </div>
+                        <div class="table-columns">
+                            <div class="column">
+                                <i class="fas fa-receipt"></i>
+                                <span>order_number</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column fk">
+                                <i class="fas fa-link"></i>
+                                <span>product_key</span>
+                                <span class="type">INT FK</span>
+                            </div>
+                            <div class="column fk">
+                                <i class="fas fa-link"></i>
+                                <span>customer_key</span>
+                                <span class="type">INT FK</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-calendar"></i>
+                                <span>order_date</span>
+                                <span class="type">DATE</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-truck"></i>
+                                <span>shipping_date</span>
+                                <span class="type">DATE</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>sales_amount</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-boxes"></i>
+                                <span>quantity</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-tag"></i>
+                                <span>price</span>
+                                <span class="type">INT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimension: Products -->
+                    <div class="schema-table dimension" id="dim-products">
+                        <div class="table-header">
+                            <i class="fas fa-box"></i>
+                            <span>dim_products</span>
+                        </div>
+                        <div class="table-columns">
+                            <div class="column pk">
+                                <i class="fas fa-key"></i>
+                                <span>product_key</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-hashtag"></i>
+                                <span>product_id</span>
+                                <span class="type">INT</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-barcode"></i>
+                                <span>product_number</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-tag"></i>
+                                <span>product_name</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-folder"></i>
+                                <span>category</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-folder-open"></i>
+                                <span>subcategory</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-stream"></i>
+                                <span>product_line</span>
+                                <span class="type">VARCHAR</span>
+                            </div>
+                            <div class="column">
+                                <i class="fas fa-coins"></i>
+                                <span>cost</span>
+                                <span class="type">INT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Relationship Lines (SVG) -->
+                    <svg class="schema-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <line class="relation-line" x1="30" y1="50" x2="50" y2="50"/>
+                        <line class="relation-line" x1="50" y1="50" x2="70" y2="50"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="schema-legend">
+                <div class="legend-item">
+                    <span class="legend-color pk"></span>
+                    <span>Primary Key</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color fk"></span>
+                    <span>Foreign Key</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color dim"></span>
+                    <span>Dimension Table</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color fact"></span>
+                    <span>Fact Table</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SQL Playground Section -->
+    <section class="section" id="playground">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Interactive</span>
+                <h2 class="section-title">SQL Playground</h2>
+                <p class="section-subtitle">Execute sample queries against the data warehouse</p>
+            </div>
+
+            <div class="playground-container">
+                <div class="playground-sidebar">
+                    <h4>Sample Queries</h4>
+                    <div class="query-list">
+                        <button class="query-btn active" data-query="sales-by-country">
+                            <i class="fas fa-globe"></i>
+                            Sales by Country
+                        </button>
+                        <button class="query-btn" data-query="top-products">
+                            <i class="fas fa-trophy"></i>
+                            Top Products
+                        </button>
+                        <button class="query-btn" data-query="monthly-trend">
+                            <i class="fas fa-chart-line"></i>
+                            Monthly Trend
+                        </button>
+                        <button class="query-btn" data-query="customer-segments">
+                            <i class="fas fa-users"></i>
+                            Customer Segments
+                        </button>
+                        <button class="query-btn" data-query="category-analysis">
+                            <i class="fas fa-layer-group"></i>
+                            Category Analysis
+                        </button>
+                    </div>
+                </div>
+
+                <div class="playground-main">
+                    <div class="editor-container">
+                        <div class="editor-header">
+                            <div class="editor-tabs">
+                                <span class="tab active">Query</span>
+                            </div>
+                            <button class="run-btn" id="runQuery">
+                                <i class="fas fa-play"></i>
+                                Run Query
+                            </button>
+                        </div>
+                        <div class="editor-body">
+                            <textarea id="sqlEditor" spellcheck="false">-- Sales by Customer Country
+SELECT 
+    c.country,
+    COUNT(f.order_number) AS total_orders,
+    SUM(f.sales_amount) AS total_revenue,
+    ROUND(AVG(f.sales_amount), 2) AS avg_order_value
+FROM gold.fact_sales f
+JOIN gold.dim_customers c 
+    ON f.customer_key = c.customer_key
+GROUP BY c.country
+ORDER BY total_revenue DESC
+LIMIT 10;</textarea>
+                        </div>
+                    </div>
+
+                    <div class="results-container">
+                        <div class="results-header">
+                            <span class="results-title">
+                                <i class="fas fa-table"></i>
+                                Results
+                            </span>
+                            <span class="results-info" id="resultsInfo">Ready to execute</span>
+                        </div>
+                        <div class="results-body" id="resultsBody">
+                            <div class="results-placeholder">
+                                <i class="fas fa-play-circle"></i>
+                                <p>Click "Run Query" to execute</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Quality Section -->
+    <section class="section section-dark" id="quality">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Quality</span>
+                <h2 class="section-title">Data Quality Framework</h2>
+                <p class="section-subtitle">Comprehensive validation at every layer</p>
+            </div>
+
+            <div class="quality-dashboard">
+                <div class="quality-score">
+                    <div class="score-circle">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="score-bg" cx="50" cy="50" r="45"/>
+                            <circle class="score-fill" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="14"/>
+                        </svg>
+                        <div class="score-value">
+                            <span class="score-number">95%</span>
+                            <span class="score-label">Quality Score</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quality-checks">
+                    <div class="check-category">
+                        <h4>
+                            <span class="layer-dot silver"></span>
+                            Silver Layer Checks
+                        </h4>
+                        <div class="checks-grid">
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Primary Key Integrity</span>
+                                    <span class="check-status">No NULLs or duplicates</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Whitespace Validation</span>
+                                    <span class="check-status">No leading/trailing spaces</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Code Standardization</span>
+                                    <span class="check-status">All codes mapped correctly</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Date Range Validation</span>
+                                    <span class="check-status">All dates within bounds</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Calculation Accuracy</span>
+                                    <span class="check-status">Sales = Qty × Price ✓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="check-category">
+                        <h4>
+                            <span class="layer-dot gold"></span>
+                            Gold Layer Checks
+                        </h4>
+                        <div class="checks-grid">
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Surrogate Key Uniqueness</span>
+                                    <span class="check-status">All keys unique</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Referential Integrity</span>
+                                    <span class="check-status">All FKs resolved</span>
+                                </div>
+                            </div>
+                            <div class="check-item passed">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Model Connectivity</span>
+                                    <span class="check-status">Fact ↔ Dim linked</span>
+                                </div>
+                            </div>
+                            <div class="check-item warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <div class="check-info">
+                                    <span class="check-name">Data Freshness</span>
+                                    <span class="check-status">Last load: 2 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quality-code">
+                <h4>Sample Quality Check Query</h4>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">SQL</span>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre><code>-- Check for orphaned fact records (referential integrity)
+SELECT 
+    'Orphaned Records' AS check_name,
+    COUNT(*) AS violations
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+WHERE p.product_key IS NULL 
+   OR c.customer_key IS NULL;
+
+-- Expected Result: 0 violations</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Learnings Section -->
+    <section class="section" id="learnings">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Insights</span>
+                <h2 class="section-title">Key Concepts Demonstrated</h2>
+                <p class="section-subtitle">Data engineering best practices applied in this project</p>
+            </div>
+
+            <div class="concepts-grid">
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h4>Medallion Architecture</h4>
+                    <p>Progressive data refinement through Bronze, Silver, and Gold layers for better data governance</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h4>ETL Pipeline</h4>
+                    <p>Stored procedures for reliable, repeatable, and maintainable data transformations</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h4>Data Cleansing</h4>
+                    <p>Deduplication, standardization, null handling, and business rule application</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Star Schema</h4>
+                    <p>Dimensional modeling with fact and dimension tables for optimal query performance</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h4>Surrogate Keys</h4>
+                    <p>Auto-generated dimension keys for flexibility and historical tracking support</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Data Quality</h4>
+                    <p>Comprehensive validation framework ensuring data integrity at every layer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-database"></i>
+                    <span>InsightFlow</span>
+                </div>
+                <p class="footer-text">
+                    A data warehouse case study demonstrating enterprise-grade ETL practices
+                </p>
+                <div class="footer-links">
+                    <a href="https://github.com/rahulx2001/InsightFlow" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/rahulx2001" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://rahulkumarsingh-portfolio.vercel.app" target="_blank">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+                <p class="footer-credit">
+                    Built with 💜 by <a href="https://github.com/rahulx2001">Rahul Kumar Singh</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

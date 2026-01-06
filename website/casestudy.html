@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightFlow | Data Warehouse Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="casestudy.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <span class="logo-text">InsightFlow</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-label">MAIN</span>
+                    <a href="#" class="nav-item" data-page="overview">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="nav-item active" data-page="pipeline">
+                        <i class="fas fa-code-branch"></i>
+                        <span>ETL Pipeline</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="datamodel">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Data Model</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-label">QUALITY & TESTING</span>
+                    <a href="#" class="nav-item" data-page="quality">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Data Quality</span>
+                    </a>
+                    <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Tests" target="_blank" class="nav-item">
+                        <i class="fas fa-vial"></i>
+                        <span>Tests</span>
+                        <i class="fas fa-external-link-alt" style="font-size: 10px; margin-left: auto;"></i>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="https://github.com/rahulx2001/InsightFlow" target="_blank" class="github-btn">
+                    <i class="fab fa-github"></i>
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="breadcrumb">
+                    <span>Dashboard</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span class="current">ETL Pipeline</span>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search tables, queries...">
+                    </div>
+                    <button class="icon-btn notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge"></span>
+                    </button>
+                    <a href="https://rahulkumarsingh-portfolio.vercel.app/" target="_blank" class="user-avatar" title="View Portfolio">RS</a>
+                </div>
+            </header>
+
+            <!-- Page Content Container -->
+            <div class="page-container">
+                
+                <!-- ==================== OVERVIEW PAGE ==================== -->
+                <div class="page" id="overviewPage" style="display: none;">
+                    <div class="page-header">
+                        <div>
+                            <h1>Data Warehouse Overview</h1>
+                            <p>End-to-end data pipeline transforming raw CRM & ERP data into analytics-ready insights</p>
+                        </div>
+                        <div class="page-actions">
+                            <a href="https://github.com/rahulx2001/InsightFlow" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> View Source</a>
+                            <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Scripts" target="_blank" class="btn btn-primary"><i class="fas fa-code"></i> ETL Scripts</a>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fas fa-layer-group"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">Data Layers</span>
+                                <span class="stat-change neutral">Bronze → Silver → Gold</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fas fa-database"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-value">79,177</span>
+                                <span class="stat-label">Total Records</span>
+                                <span class="stat-change positive"><i class="fas fa-users"></i> 18,484 customers</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-value">100<span class="stat-unit">%</span></span>
+                                <span class="stat-label">Tests Passed</span>
+                                <span class="stat-change positive"><i class="fas fa-vial"></i> All QC checks</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange"><i class="fas fa-star"></i></div>
+                            <div class="stat-content">
+                                <span class="stat-value">Star</span>
+                                <span class="stat-label">Schema Design</span>
+                                <span class="stat-change neutral">Fact + Dimensions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Architecture & Quality -->
+                    <div class="two-column">
+                        <!-- Medallion Architecture -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-layer-group"></i> Medallion Architecture</h3>
+                                <button class="icon-btn"><i class="fas fa-expand"></i></button>
+                            </div>
+                            <div class="architecture-flow">
+                                <div class="source-systems">
+                                    <div class="source-box">
+                                        <i class="fas fa-users"></i>
+                                        <span>CRM</span>
+                                    </div>
+                                    <div class="source-box">
+                                        <i class="fas fa-building"></i>
+                                        <span>ERP</span>
+                                    </div>
+                                </div>
+                                <div class="flow-arrow">
+                                    <span>EXTRACT</span>
+                                    <div class="arrow-line"></div>
+                                </div>
+                                <div class="layer-box bronze-box">
+                                    <div class="layer-icon"><i class="fas fa-coins"></i></div>
+                                    <span class="layer-name">Bronze</span>
+                                    <span class="layer-desc">Raw Data</span>
+                                    <span class="layer-count">6 tables</span>
+                                </div>
+                                <div class="flow-arrow">
+                                    <span>TRANSFORM</span>
+                                    <div class="arrow-line"></div>
+                                </div>
+                                <div class="layer-box silver-box">
+                                    <div class="layer-icon"><i class="fas fa-filter"></i></div>
+                                    <span class="layer-name">Silver</span>
+                                    <span class="layer-desc">Cleansed</span>
+                                    <span class="layer-count">6 tables</span>
+                                </div>
+                                <div class="flow-arrow">
+                                    <span>LOAD</span>
+                                    <div class="arrow-line"></div>
+                                </div>
+                                <div class="layer-box gold-box">
+                                    <div class="layer-icon"><i class="fas fa-crown"></i></div>
+                                    <span class="layer-name">Gold</span>
+                                    <span class="layer-desc">Analytics</span>
+                                    <span class="layer-count">3 tables</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Quality -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-shield-alt"></i> Data Quality Checks</h3>
+                                <span class="badge-success">All Passed</span>
+                            </div>
+                            <div class="quality-content">
+                                <div class="quality-chart">
+                                    <svg viewBox="0 0 120 120" class="circular-progress">
+                                        <circle class="bg" cx="60" cy="60" r="50"></circle>
+                                        <circle class="progress" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="16"></circle>
+                                    </svg>
+                                    <div class="quality-value">
+                                        <span>95%</span>
+                                        <small>Quality</small>
+                                    </div>
+                                </div>
+                                <div class="quality-checks">
+                                    <div class="check-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Primary Key Integrity</span>
+                                    </div>
+                                    <div class="check-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Referential Integrity</span>
+                                    </div>
+                                    <div class="check-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>No Null Values</span>
+                                    </div>
+                                    <div class="check-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Data Standardization</span>
+                                    </div>
+                                    <div class="check-item warning">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <span>Freshness (2h ago)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bronze & Silver Layer Transformations -->
+                    <div class="two-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-coins"></i> Bronze Layer Transformations</h3>
+                                <span class="badge-bronze">6 Tables</span>
+                            </div>
+                            <div class="transform-list">
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-user"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_cust_info</span>
+                                        <span class="transform-desc">Raw customer data ingested from CRM system as-is</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-box"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_prd_info</span>
+                                        <span class="transform-desc">Raw product catalog loaded from CRM source</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-shopping-cart"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_sales_details</span>
+                                        <span class="transform-desc">Raw sales transactions from CRM system</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-id-card"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_cust_az12</span>
+                                        <span class="transform-desc">Raw customer demographics from ERP system</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_loc_a101</span>
+                                        <span class="transform-desc">Raw location/country data from ERP system</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon bronze"><i class="fas fa-tags"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_px_cat_g1v2</span>
+                                        <span class="transform-desc">Raw product categories from ERP system</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-filter"></i> Silver Layer Transformations</h3>
+                                <span class="badge-silver">6 Tables</span>
+                            </div>
+                            <div class="transform-list">
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-user-check"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_cust_info</span>
+                                        <span class="transform-desc">Standardized gender (M/F → Male/Female), cleaned names, validated dates</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-box-open"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_prd_info</span>
+                                        <span class="transform-desc">Extracted category/subcategory, normalized product names, handled NULLs</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-receipt"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">crm_sales_details</span>
+                                        <span class="transform-desc">Derived sales_amount from quantity × price, validated date ranges</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-id-badge"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_cust_az12</span>
+                                        <span class="transform-desc">Cleaned birth dates, standardized gender values, removed nulls</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-globe"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_loc_a101</span>
+                                        <span class="transform-desc">Standardized country names, removed duplicates, trimmed whitespace</span>
+                                    </div>
+                                </div>
+                                <div class="transform-item">
+                                    <div class="transform-icon silver"><i class="fas fa-sitemap"></i></div>
+                                    <div class="transform-content">
+                                        <span class="transform-title">erp_px_cat_g1v2</span>
+                                        <span class="transform-desc">Cleaned category hierarchy, standardized maintenance flags</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gold Layer Tables & Pipeline Summary -->
+                    <div class="two-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-crown"></i> Gold Layer Tables</h3>
+                                <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Scripts/Gold_Layer" target="_blank" class="link">View Scripts <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                            <div class="tables-list">
+                                <div class="table-row">
+                                    <div class="table-info">
+                                        <i class="fas fa-users"></i>
+                                        <div>
+                                            <span class="table-name">dim_customers</span>
+                                            <span class="table-source">Customer Dimension</span>
+                                        </div>
+                                    </div>
+                                    <span class="table-rows">18,484 rows</span>
+                                    <span class="table-size">1.8 MB</span>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-info">
+                                        <i class="fas fa-box"></i>
+                                        <div>
+                                            <span class="table-name">dim_products</span>
+                                            <span class="table-source">Product Dimension</span>
+                                        </div>
+                                    </div>
+                                    <span class="table-rows">295 rows</span>
+                                    <span class="table-size">64 KB</span>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-info">
+                                        <i class="fas fa-chart-line"></i>
+                                        <div>
+                                            <span class="table-name">fact_sales</span>
+                                            <span class="table-source">Sales Fact Table</span>
+                                        </div>
+                                    </div>
+                                    <span class="table-rows">60,398 rows</span>
+                                    <span class="table-size">6.2 MB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Pipeline Summary -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-stream"></i> Pipeline Summary</h3>
+                                <span class="badge-success"><i class="fas fa-check"></i> Healthy</span>
+                            </div>
+                            <div class="pipeline-summary">
+                                <div class="pipeline-flow-mini">
+                                    <div class="flow-step">
+                                        <div class="flow-icon bronze"><i class="fas fa-download"></i></div>
+                                        <span class="flow-label">Ingest</span>
+                                        <span class="flow-value">6 sources</span>
+                                    </div>
+                                    <div class="flow-connector"><i class="fas fa-chevron-right"></i></div>
+                                    <div class="flow-step">
+                                        <div class="flow-icon silver"><i class="fas fa-broom"></i></div>
+                                        <span class="flow-label">Clean</span>
+                                        <span class="flow-value">6 tables</span>
+                                    </div>
+                                    <div class="flow-connector"><i class="fas fa-chevron-right"></i></div>
+                                    <div class="flow-step">
+                                        <div class="flow-icon gold"><i class="fas fa-star"></i></div>
+                                        <span class="flow-label">Model</span>
+                                        <span class="flow-value">3 views</span>
+                                    </div>
+                                </div>
+                                <div class="pipeline-metrics">
+                                    <div class="metric-item">
+                                        <div class="metric-icon"><i class="fas fa-database"></i></div>
+                                        <div class="metric-info">
+                                            <span class="metric-value">79,177</span>
+                                            <span class="metric-label">Total Records</span>
+                                        </div>
+                                    </div>
+                                    <div class="metric-item">
+                                        <div class="metric-icon"><i class="fas fa-hdd"></i></div>
+                                        <div class="metric-info">
+                                            <span class="metric-value">8.1 MB</span>
+                                            <span class="metric-label">Total Size</span>
+                                        </div>
+                                    </div>
+                                    <div class="metric-item">
+                                        <div class="metric-icon"><i class="fas fa-code-branch"></i></div>
+                                        <div class="metric-info">
+                                            <span class="metric-value">15</span>
+                                            <span class="metric-label">Total Tables</span>
+                                        </div>
+                                    </div>
+                                    <div class="metric-item">
+                                        <div class="metric-icon"><i class="fas fa-vial"></i></div>
+                                        <div class="metric-info">
+                                            <span class="metric-value">100%</span>
+                                            <span class="metric-label">Tests Passed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ETL Methods Diagram -->
+                    <div class="card etl-methods-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-sitemap"></i> ETL Methods & Techniques</h3>
+                            <span class="badge-info"><i class="fas fa-lightbulb"></i> Best Practices Applied</span>
+                        </div>
+                        <div class="etl-methods-content">
+                            <div class="etl-diagram-container dark-diagram">
+                                <img src="https://raw.githubusercontent.com/rahulx2001/InsightFlow/main/Docs/ETL_new.png" alt="ETL Methods Diagram" class="etl-diagram-img">
+                            </div>
+                            <div class="etl-methods-legend">
+                                <div class="legend-section extraction">
+                                    <h4><i class="fas fa-download"></i> Extraction</h4>
+                                    <ul>
+                                        <li><strong>Full Extraction:</strong> Initial load of complete datasets</li>
+                                        <li><strong>Pull Extraction:</strong> Query-based data retrieval from CRM & ERP</li>
+                                        <li><strong>File Parsing:</strong> CSV file ingestion to Bronze layer</li>
+                                    </ul>
+                                </div>
+                                <div class="legend-section transformation">
+                                    <h4><i class="fas fa-sync-alt"></i> Transformation</h4>
+                                    <ul>
+                                        <li><strong>Data Cleansing:</strong> NULL handling, duplicate removal</li>
+                                        <li><strong>Standardization:</strong> Gender, country normalization</li>
+                                        <li><strong>Derived Columns:</strong> Surrogate keys, calculated fields</li>
+                                        <li><strong>Data Integration:</strong> Joining CRM & ERP sources</li>
+                                    </ul>
+                                </div>
+                                <div class="legend-section loading">
+                                    <h4><i class="fas fa-upload"></i> Load</h4>
+                                    <ul>
+                                        <li><strong>Full Load:</strong> Truncate & insert for dimension tables</li>
+                                        <li><strong>Views:</strong> CREATE VIEW for Gold layer analytics</li>
+                                        <li><strong>Star Schema:</strong> Dimensional modeling pattern</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack & Key Features -->
+                    <div class="two-column">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-tools"></i> Tech Stack</h3>
+                            </div>
+                            <div class="tech-stack-list">
+                                <div class="tech-item">
+                                    <div class="tech-icon postgres"><i class="fas fa-database"></i></div>
+                                    <div class="tech-content">
+                                        <span class="tech-name">PostgreSQL</span>
+                                        <span class="tech-desc">Primary database for all layers</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <div class="tech-icon sql"><i class="fas fa-code"></i></div>
+                                    <div class="tech-content">
+                                        <span class="tech-name">SQL</span>
+                                        <span class="tech-desc">ETL transformations & views</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <div class="tech-icon git"><i class="fab fa-git-alt"></i></div>
+                                    <div class="tech-content">
+                                        <span class="tech-name">Git & GitHub</span>
+                                        <span class="tech-desc">Version control & documentation</span>
+                                    </div>
+                                </div>
+                                <div class="tech-item">
+                                    <div class="tech-icon draw"><i class="fas fa-project-diagram"></i></div>
+                                    <div class="tech-content">
+                                        <span class="tech-name">Draw.io</span>
+                                        <span class="tech-desc">Architecture diagrams</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-lightbulb"></i> Key Features</h3>
+                            </div>
+                            <div class="features-list">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Medallion Architecture (Bronze/Silver/Gold)</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Star Schema with Fact & Dimension tables</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Data Quality checks at each layer</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Comprehensive test coverage</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>CRM & ERP data integration</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Customer 360 analytics view</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== ETL PIPELINE PAGE ==================== -->
+                <div class="page" id="pipelinePage">
+                    <!-- All Three Layers ERD Section -->
+                    <div class="pipeline-layers">
+                        <!-- Bronze Layer -->
+                        <div class="layer-section">
+                            <div class="layer-header bronze">
+                                <i class="fas fa-coins"></i>
+                                <span>Bronze Layer</span>
+                                <span class="layer-count">6 tables</span>
+                            </div>
+                            <div class="layer-tables">
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_cust_info</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_prd_info</span>
+                                    <span class="mini-table-rows">397</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_sales_details</span>
+                                    <span class="mini-table-rows">60,398</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_cust_az12</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_loc_a101</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_px_cat_g1v2</span>
+                                    <span class="mini-table-rows">37</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layer-arrow"><i class="fas fa-arrow-right"></i></div>
+
+                        <!-- Silver Layer -->
+                        <div class="layer-section">
+                            <div class="layer-header silver">
+                                <i class="fas fa-filter"></i>
+                                <span>Silver Layer</span>
+                                <span class="layer-count">6 tables</span>
+                            </div>
+                            <div class="layer-tables">
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_cust_info</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_prd_info</span>
+                                    <span class="mini-table-rows">295</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">crm_sales_details</span>
+                                    <span class="mini-table-rows">60,398</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_cust_az12</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_loc_a101</span>
+                                    <span class="mini-table-rows">18,484</span>
+                                </div>
+                                <div class="mini-table">
+                                    <span class="mini-table-name">erp_px_cat_g1v2</span>
+                                    <span class="mini-table-rows">37</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layer-arrow"><i class="fas fa-arrow-right"></i></div>
+
+                        <!-- Gold Layer -->
+                        <div class="layer-section gold-layer">
+                            <div class="layer-header gold">
+                                <i class="fas fa-crown"></i>
+                                <span>Gold Layer</span>
+                                <span class="layer-count">3 views</span>
+                            </div>
+                            <div class="gold-tables-row">
+                                <div class="erd-table" data-table="dim_customers">
+                                    <div class="erd-table-header blue">
+                                        <i class="fas fa-users"></i>
+                                        <span>dim_customers</span>
+                                    </div>
+                                    <div class="erd-table-body">
+                                        <div class="column-row"><span class="col-name"><i class="fas fa-key"></i> customer_key</span><span class="col-type">INT</span></div>
+                                        <div class="column-row"><span class="col-name">customer_id</span><span class="col-type">INT</span></div>
+                                        <div class="column-row"><span class="col-name">customer_number</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">first_name</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">last_name</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">country</span><span class="col-type">VARCHAR</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="erd-table" data-table="fact_sales">
+                                    <div class="erd-table-header gold">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>fact_sales</span>
+                                    </div>
+                                    <div class="erd-table-body">
+                                        <div class="column-row"><span class="col-name">order_number</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name"><i class="fas fa-link"></i> customer_key</span><span class="col-type">INT FK</span></div>
+                                        <div class="column-row"><span class="col-name"><i class="fas fa-link"></i> product_key</span><span class="col-type">INT FK</span></div>
+                                        <div class="column-row"><span class="col-name">order_date</span><span class="col-type">DATE</span></div>
+                                        <div class="column-row"><span class="col-name">sales_amount</span><span class="col-type">INT</span></div>
+                                        <div class="column-row"><span class="col-name">quantity</span><span class="col-type">INT</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="erd-table" data-table="dim_products">
+                                    <div class="erd-table-header green">
+                                        <i class="fas fa-box"></i>
+                                        <span>dim_products</span>
+                                    </div>
+                                    <div class="erd-table-body">
+                                        <div class="column-row"><span class="col-name"><i class="fas fa-key"></i> product_key</span><span class="col-type">INT</span></div>
+                                        <div class="column-row"><span class="col-name">product_id</span><span class="col-type">INT</span></div>
+                                        <div class="column-row"><span class="col-name">product_name</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">category</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">subcategory</span><span class="col-type">VARCHAR</span></div>
+                                        <div class="column-row"><span class="col-name">cost</span><span class="col-type">INT</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SQL Playground Section with Gold Layer Queries -->
+                    <div class="sql-playground">
+                        <div class="playground-header">
+                            <h3><i class="fas fa-terminal"></i> SQL Playground</h3>
+                            <div class="query-tabs">
+                                <button class="query-tab active" data-query="dim_customers">dim_customers</button>
+                                <button class="query-tab" data-query="dim_products">dim_products</button>
+                                <button class="query-tab" data-query="fact_sales">fact_sales</button>
+                            </div>
+                        </div>
+                        <div class="playground-content">
+                            <div class="sql-editor-panel">
+                                <div class="editor-header">
+                                    <span><i class="fas fa-code"></i> SQL Query</span>
+                                    <div class="editor-actions">
+                                        <button class="icon-btn" title="Format"><i class="fas fa-align-left"></i></button>
+                                        <button class="icon-btn" title="Copy"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                </div>
+                                <div class="sql-editor">
+                                    <pre class="sql-code" id="sqlCode"><span class="keyword">CREATE VIEW</span> gold.dim_customers <span class="keyword">AS</span>
+<span class="keyword">SELECT</span>
+    <span class="function">ROW_NUMBER</span>() <span class="keyword">OVER</span>(<span class="keyword">ORDER BY</span> cst_id) <span class="keyword">AS</span> customer_key,
+    ci.cst_id <span class="keyword">AS</span> customer_id,
+    ci.cst_key <span class="keyword">AS</span> customer_number,
+    ci.cst_firstname <span class="keyword">AS</span> first_name,
+    ci.cst_lastname <span class="keyword">AS</span> last_name,
+    ci.cst_marital_status <span class="keyword">AS</span> marital_status,
+    <span class="keyword">CASE WHEN</span> ci.cst_gndr &lt;&gt; <span class="string">'n/a'</span> <span class="keyword">THEN</span> ci.cst_gndr
+         <span class="keyword">ELSE</span> <span class="function">COALESCE</span>(ca.gen, <span class="string">'n/a'</span>)
+    <span class="keyword">END AS</span> gender,
+    ci.cst_create_date <span class="keyword">AS</span> create_date,
+    ca.bdate <span class="keyword">AS</span> birth_date,
+    la.cntry <span class="keyword">AS</span> country
+<span class="keyword">FROM</span> silver.crm_cust_info ci
+<span class="keyword">LEFT JOIN</span> silver.erp_cust_az12 ca
+    <span class="keyword">ON</span> ci.cst_key = ca.cid
+<span class="keyword">LEFT JOIN</span> silver.erp_loc_a101 la
+    <span class="keyword">ON</span> ci.cst_key = la.cid;</pre>
+                                </div>
+                                <div class="editor-footer">
+                                    <span class="hint"><i class="fas fa-keyboard"></i> Press Ctrl+Enter to run</span>
+                                    <button class="btn btn-success execute-btn">
+                                        <i class="fas fa-play"></i> Execute Query
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="results-panel">
+                                <div class="results-header">
+                                    <span><i class="fas fa-table"></i> Results</span>
+                                    <span class="results-meta">18,484 rows • 0.078s</span>
+                                </div>
+                                <div class="results-table-wrapper">
+                                    <table class="results-table" id="pipelineResultsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>customer_key</th>
+                                                <th>customer_id</th>
+                                                <th>customer_number</th>
+                                                <th>first_name</th>
+                                                <th>last_name</th>
+                                                <th>country</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>1</td><td>11000</td><td>AW00011000</td><td>Jon</td><td>Yang</td><td>Australia</td></tr>
+                                            <tr><td>2</td><td>11001</td><td>AW00011001</td><td>Eugene</td><td>Huang</td><td>Australia</td></tr>
+                                            <tr><td>3</td><td>11002</td><td>AW00011002</td><td>Ruben</td><td>Torres</td><td>Australia</td></tr>
+                                            <tr><td>4</td><td>11003</td><td>AW00011003</td><td>Christy</td><td>Zhu</td><td>Australia</td></tr>
+                                            <tr><td>5</td><td>11004</td><td>AW00011004</td><td>Elizabeth</td><td>Johnson</td><td>Australia</td></tr>
+                                            <tr><td>6</td><td>11005</td><td>AW00011005</td><td>Julio</td><td>Ruiz</td><td>Australia</td></tr>
+                                            <tr><td>7</td><td>11006</td><td>AW00011006</td><td>Janet</td><td>Alvarez</td><td>Australia</td></tr>
+                                            <tr><td>8</td><td>11007</td><td>AW00011007</td><td>Marco</td><td>Mehta</td><td>Australia</td></tr>
+                                            <tr><td>9</td><td>11008</td><td>AW00011008</td><td>Rob</td><td>Verhoff</td><td>Australia</td></tr>
+                                            <tr><td>10</td><td>11009</td><td>AW00011009</td><td>Shannon</td><td>Carlson</td><td>Australia</td></tr>
+                                            <tr><td>11</td><td>11010</td><td>AW00011010</td><td>Jacquelyn</td><td>Suarez</td><td>Australia</td></tr>
+                                            <tr><td>12</td><td>11011</td><td>AW00011011</td><td>Curtis</td><td>Lu</td><td>Australia</td></tr>
+                                            <tr><td>13</td><td>11012</td><td>AW00011012</td><td>Lauren</td><td>Walker</td><td>Australia</td></tr>
+                                            <tr><td>14</td><td>11013</td><td>AW00011013</td><td>Ian</td><td>Jenkins</td><td>Australia</td></tr>
+                                            <tr><td>15</td><td>11014</td><td>AW00011014</td><td>Sydney</td><td>Bennett</td><td>Australia</td></tr>
+                                            <tr><td>16</td><td>11015</td><td>AW00011015</td><td>Chloe</td><td>Young</td><td>United States</td></tr>
+                                            <tr><td>17</td><td>11016</td><td>AW00011016</td><td>Wyatt</td><td>Hill</td><td>United States</td></tr>
+                                            <tr><td>18</td><td>11017</td><td>AW00011017</td><td>Brianna</td><td>Gray</td><td>United States</td></tr>
+                                            <tr><td>19</td><td>11018</td><td>AW00011018</td><td>Alex</td><td>Lopez</td><td>United States</td></tr>
+                                            <tr><td>20</td><td>11019</td><td>AW00011019</td><td>Rachel</td><td>Morgan</td><td>United States</td></tr>
+                                            <tr><td>21</td><td>11020</td><td>AW00011020</td><td>Nathan</td><td>Bell</td><td>United States</td></tr>
+                                            <tr><td>22</td><td>11021</td><td>AW00011021</td><td>Maria</td><td>Adams</td><td>United States</td></tr>
+                                            <tr><td>23</td><td>11022</td><td>AW00011022</td><td>Tyler</td><td>Nelson</td><td>United States</td></tr>
+                                            <tr><td>24</td><td>11023</td><td>AW00011023</td><td>Jessica</td><td>Carter</td><td>United States</td></tr>
+                                            <tr><td>25</td><td>11024</td><td>AW00011024</td><td>Brandon</td><td>Mitchell</td><td>United States</td></tr>
+                                            <tr><td>26</td><td>11025</td><td>AW00011025</td><td>Kayla</td><td>Perez</td><td>United States</td></tr>
+                                            <tr><td>27</td><td>11026</td><td>AW00011026</td><td>Justin</td><td>Roberts</td><td>United States</td></tr>
+                                            <tr><td>28</td><td>11027</td><td>AW00011027</td><td>Amber</td><td>Turner</td><td>United States</td></tr>
+                                            <tr><td>29</td><td>11028</td><td>AW00011028</td><td>Kevin</td><td>Phillips</td><td>United States</td></tr>
+                                            <tr><td>30</td><td>11029</td><td>AW00011029</td><td>Sarah</td><td>Campbell</td><td>United States</td></tr>
+                                            <tr><td>31</td><td>11030</td><td>AW00011030</td><td>Jason</td><td>Parker</td><td>United Kingdom</td></tr>
+                                            <tr><td>32</td><td>11031</td><td>AW00011031</td><td>Megan</td><td>Evans</td><td>United Kingdom</td></tr>
+                                            <tr><td>33</td><td>11032</td><td>AW00011032</td><td>Ryan</td><td>Edwards</td><td>United Kingdom</td></tr>
+                                            <tr><td>34</td><td>11033</td><td>AW00011033</td><td>Emily</td><td>Collins</td><td>United Kingdom</td></tr>
+                                            <tr><td>35</td><td>11034</td><td>AW00011034</td><td>Daniel</td><td>Stewart</td><td>United Kingdom</td></tr>
+                                            <tr><td>36</td><td>11035</td><td>AW00011035</td><td>Ashley</td><td>Sanchez</td><td>United Kingdom</td></tr>
+                                            <tr><td>37</td><td>11036</td><td>AW00011036</td><td>Matthew</td><td>Morris</td><td>United Kingdom</td></tr>
+                                            <tr><td>38</td><td>11037</td><td>AW00011037</td><td>Nicole</td><td>Rogers</td><td>United Kingdom</td></tr>
+                                            <tr><td>39</td><td>11038</td><td>AW00011038</td><td>Joshua</td><td>Reed</td><td>United Kingdom</td></tr>
+                                            <tr><td>40</td><td>11039</td><td>AW00011039</td><td>Stephanie</td><td>Cook</td><td>United Kingdom</td></tr>
+                                            <tr><td>41</td><td>11040</td><td>AW00011040</td><td>Andrew</td><td>Morgan</td><td>United Kingdom</td></tr>
+                                            <tr><td>42</td><td>11041</td><td>AW00011041</td><td>Hannah</td><td>Bailey</td><td>United Kingdom</td></tr>
+                                            <tr><td>43</td><td>11042</td><td>AW00011042</td><td>Christopher</td><td>Rivera</td><td>United Kingdom</td></tr>
+                                            <tr><td>44</td><td>11043</td><td>AW00011043</td><td>Samantha</td><td>Cooper</td><td>United Kingdom</td></tr>
+                                            <tr><td>45</td><td>11044</td><td>AW00011044</td><td>Nicholas</td><td>Richardson</td><td>United Kingdom</td></tr>
+                                            <tr><td>46</td><td>11045</td><td>AW00011045</td><td>Victoria</td><td>Cox</td><td>Germany</td></tr>
+                                            <tr><td>47</td><td>11046</td><td>AW00011046</td><td>David</td><td>Howard</td><td>Germany</td></tr>
+                                            <tr><td>48</td><td>11047</td><td>AW00011047</td><td>Rebecca</td><td>Ward</td><td>Germany</td></tr>
+                                            <tr><td>49</td><td>11048</td><td>AW00011048</td><td>Joseph</td><td>Torres</td><td>Germany</td></tr>
+                                            <tr><td>50</td><td>11049</td><td>AW00011049</td><td>Katherine</td><td>Peterson</td><td>Germany</td></tr>
+                                            <tr><td>51</td><td>11050</td><td>AW00011050</td><td>Benjamin</td><td>Gray</td><td>Germany</td></tr>
+                                            <tr><td>52</td><td>11051</td><td>AW00011051</td><td>Amanda</td><td>Ramirez</td><td>Germany</td></tr>
+                                            <tr><td>53</td><td>11052</td><td>AW00011052</td><td>Anthony</td><td>James</td><td>Germany</td></tr>
+                                            <tr><td>54</td><td>11053</td><td>AW00011053</td><td>Jennifer</td><td>Watson</td><td>Germany</td></tr>
+                                            <tr><td>55</td><td>11054</td><td>AW00011054</td><td>Steven</td><td>Brooks</td><td>Germany</td></tr>
+                                            <tr><td>56</td><td>11055</td><td>AW00011055</td><td>Michelle</td><td>Kelly</td><td>Germany</td></tr>
+                                            <tr><td>57</td><td>11056</td><td>AW00011056</td><td>Charles</td><td>Sanders</td><td>Germany</td></tr>
+                                            <tr><td>58</td><td>11057</td><td>AW00011057</td><td>Kimberly</td><td>Price</td><td>Germany</td></tr>
+                                            <tr><td>59</td><td>11058</td><td>AW00011058</td><td>Timothy</td><td>Bennett</td><td>Germany</td></tr>
+                                            <tr><td>60</td><td>11059</td><td>AW00011059</td><td>Lisa</td><td>Wood</td><td>Germany</td></tr>
+                                            <tr><td>61</td><td>11060</td><td>AW00011060</td><td>Patrick</td><td>Barnes</td><td>France</td></tr>
+                                            <tr><td>62</td><td>11061</td><td>AW00011061</td><td>Elizabeth</td><td>Ross</td><td>France</td></tr>
+                                            <tr><td>63</td><td>11062</td><td>AW00011062</td><td>Mark</td><td>Henderson</td><td>France</td></tr>
+                                            <tr><td>64</td><td>11063</td><td>AW00011063</td><td>Laura</td><td>Coleman</td><td>France</td></tr>
+                                            <tr><td>65</td><td>11064</td><td>AW00011064</td><td>Brian</td><td>Jenkins</td><td>France</td></tr>
+                                            <tr><td>66</td><td>11065</td><td>AW00011065</td><td>Heather</td><td>Perry</td><td>France</td></tr>
+                                            <tr><td>67</td><td>11066</td><td>AW00011066</td><td>Scott</td><td>Powell</td><td>France</td></tr>
+                                            <tr><td>68</td><td>11067</td><td>AW00011067</td><td>Angela</td><td>Long</td><td>France</td></tr>
+                                            <tr><td>69</td><td>11068</td><td>AW00011068</td><td>Kenneth</td><td>Patterson</td><td>France</td></tr>
+                                            <tr><td>70</td><td>11069</td><td>AW00011069</td><td>Anna</td><td>Hughes</td><td>France</td></tr>
+                                            <tr><td>71</td><td>11070</td><td>AW00011070</td><td>Jeffrey</td><td>Flores</td><td>France</td></tr>
+                                            <tr><td>72</td><td>11071</td><td>AW00011071</td><td>Christine</td><td>Washington</td><td>France</td></tr>
+                                            <tr><td>73</td><td>11072</td><td>AW00011072</td><td>Eric</td><td>Butler</td><td>France</td></tr>
+                                            <tr><td>74</td><td>11073</td><td>AW00011073</td><td>Karen</td><td>Simmons</td><td>France</td></tr>
+                                            <tr><td>75</td><td>11074</td><td>AW00011074</td><td>George</td><td>Foster</td><td>France</td></tr>
+                                            <tr><td>76</td><td>11075</td><td>AW00011075</td><td>Deborah</td><td>Gonzales</td><td>Canada</td></tr>
+                                            <tr><td>77</td><td>11076</td><td>AW00011076</td><td>Ronald</td><td>Bryant</td><td>Canada</td></tr>
+                                            <tr><td>78</td><td>11077</td><td>AW00011077</td><td>Sandra</td><td>Alexander</td><td>Canada</td></tr>
+                                            <tr><td>79</td><td>11078</td><td>AW00011078</td><td>Gary</td><td>Russell</td><td>Canada</td></tr>
+                                            <tr><td>80</td><td>11079</td><td>AW00011079</td><td>Patricia</td><td>Griffin</td><td>Canada</td></tr>
+                                            <tr><td>81</td><td>11080</td><td>AW00011080</td><td>Edward</td><td>Diaz</td><td>Canada</td></tr>
+                                            <tr><td>82</td><td>11081</td><td>AW00011081</td><td>Dorothy</td><td>Hayes</td><td>Canada</td></tr>
+                                            <tr><td>83</td><td>11082</td><td>AW00011082</td><td>Paul</td><td>Myers</td><td>Canada</td></tr>
+                                            <tr><td>84</td><td>11083</td><td>AW00011083</td><td>Betty</td><td>Ford</td><td>Canada</td></tr>
+                                            <tr><td>85</td><td>11084</td><td>AW00011084</td><td>Donald</td><td>Hamilton</td><td>Canada</td></tr>
+                                            <tr><td>86</td><td>11085</td><td>AW00011085</td><td>Helen</td><td>Graham</td><td>Canada</td></tr>
+                                            <tr><td>87</td><td>11086</td><td>AW00011086</td><td>Larry</td><td>Sullivan</td><td>Canada</td></tr>
+                                            <tr><td>88</td><td>11087</td><td>AW00011087</td><td>Nancy</td><td>Wallace</td><td>Canada</td></tr>
+                                            <tr><td>89</td><td>11088</td><td>AW00011088</td><td>Frank</td><td>Woods</td><td>Canada</td></tr>
+                                            <tr><td>90</td><td>11089</td><td>AW00011089</td><td>Carol</td><td>Cole</td><td>Canada</td></tr>
+                                            <tr><td>91</td><td>11090</td><td>AW00011090</td><td>Raymond</td><td>West</td><td>Australia</td></tr>
+                                            <tr><td>92</td><td>11091</td><td>AW00011091</td><td>Margaret</td><td>Jordan</td><td>Australia</td></tr>
+                                            <tr><td>93</td><td>11092</td><td>AW00011092</td><td>Peter</td><td>Owens</td><td>Australia</td></tr>
+                                            <tr><td>94</td><td>11093</td><td>AW00011093</td><td>Ruth</td><td>Reynolds</td><td>Australia</td></tr>
+                                            <tr><td>95</td><td>11094</td><td>AW00011094</td><td>Henry</td><td>Fisher</td><td>Australia</td></tr>
+                                            <tr><td>96</td><td>11095</td><td>AW00011095</td><td>Virginia</td><td>Ellis</td><td>Australia</td></tr>
+                                            <tr><td>97</td><td>11096</td><td>AW00011096</td><td>Carl</td><td>Harrison</td><td>Australia</td></tr>
+                                            <tr><td>98</td><td>11097</td><td>AW00011097</td><td>Diane</td><td>Gibson</td><td>Australia</td></tr>
+                                            <tr><td>99</td><td>11098</td><td>AW00011098</td><td>Arthur</td><td>McDonald</td><td>Australia</td></tr>
+                                            <tr><td>100</td><td>11099</td><td>AW00011099</td><td>Marie</td><td>Cruz</td><td>Australia</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== DATA MODEL PAGE ==================== -->
+                <div class="page" id="datamodelPage" style="display: none;">
+                    <div class="datamodel-layout">
+                        <div class="dm-sidebar">
+                            <div class="dm-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search...">
+                                <span class="shortcut">⌘K</span>
+                            </div>
+                            <div class="dm-tree">
+                                <div class="tree-section expanded">
+                                    <div class="tree-header"><i class="fas fa-chevron-down"></i><i class="fas fa-layer-group"></i> Schemas</div>
+                                    <div class="tree-body">
+                                        <div class="tree-group expanded">
+                                            <div class="tree-group-header"><i class="fas fa-chevron-down"></i><span class="dot gold"></span> gold <span class="count">3</span></div>
+                                            <div class="tree-items">
+                                                <div class="tree-item active" data-table="dim_customers"><i class="fas fa-eye"></i> dim_customers</div>
+                                                <div class="tree-item" data-table="dim_products"><i class="fas fa-eye"></i> dim_products</div>
+                                                <div class="tree-item" data-table="fact_sales"><i class="fas fa-eye"></i> fact_sales</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dm-main">
+                            <div class="dm-header">
+                                <div class="dm-path">datawarehouse / <span>Gold Layer - Star Schema</span></div>
+                                <div class="dm-tabs">
+                                    <button class="dm-tab active"><i class="fas fa-project-diagram"></i> ERD</button>
+                                    <button class="dm-tab"><i class="fas fa-code"></i> SQL</button>
+                                </div>
+                                <div class="dm-actions">
+                                    <button class="btn btn-ghost"><i class="fas fa-share-alt"></i> Share</button>
+                                    <button class="btn btn-success dm-run-btn"><i class="fas fa-play"></i> RunSQL</button>
+                                </div>
+                            </div>
+                            <div class="dm-content-split">
+                            <div class="dm-erd-half">
+                            <div class="dm-toolbar">
+                                <span class="zoom">100%</span>
+                                <button class="tool-btn"><i class="fas fa-minus"></i></button>
+                                <button class="tool-btn"><i class="fas fa-expand"></i></button>
+                                <button class="tool-btn"><i class="fas fa-hand-paper"></i></button>
+                            </div>
+                            <div class="dm-canvas">
+                                <div class="dm-table blue" style="left: 40px; top: 40px;">
+                                    <div class="dm-table-header"><i class="fas fa-users"></i> dim_customers <button><i class="fas fa-ellipsis-h"></i></button></div>
+                                    <div class="dm-table-tabs"><span class="active">Columns</span><span>Create Statement</span></div>
+                                    <div class="dm-table-body">
+                                        <div class="row"><span><i class="fas fa-key"></i> customer_key</span><span>bigint</span></div>
+                                        <div class="row"><span>customer_id</span><span>integer</span></div>
+                                        <div class="row"><span>customer_number</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>first_name</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>last_name</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>marital_status</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>gender</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>birth_date</span><span>date</span></div>
+                                        <div class="row"><span>country</span><span>varchar(50)</span></div>
+                                    </div>
+                                    <div class="dm-table-footer">18,484 rows</div>
+                                </div>
+                                <div class="dm-table orange" style="left: 340px; top: 80px;">
+                                    <div class="dm-table-header"><i class="fas fa-chart-line"></i> fact_sales <button><i class="fas fa-ellipsis-h"></i></button></div>
+                                    <div class="dm-table-tabs"><span class="active">Columns</span><span>Create Statement</span></div>
+                                    <div class="dm-table-body">
+                                        <div class="row"><span>order_number</span><span>varchar(50)</span></div>
+                                        <div class="row"><span><i class="fas fa-link"></i> customer_key</span><span>bigint FK</span></div>
+                                        <div class="row"><span><i class="fas fa-link"></i> product_key</span><span>bigint FK</span></div>
+                                        <div class="row"><span>order_date</span><span>date</span></div>
+                                        <div class="row"><span>shipping_date</span><span>date</span></div>
+                                        <div class="row"><span>due_date</span><span>date</span></div>
+                                        <div class="row"><span>sales_amount</span><span>integer</span></div>
+                                        <div class="row"><span>quantity</span><span>integer</span></div>
+                                        <div class="row"><span>price</span><span>integer</span></div>
+                                    </div>
+                                    <div class="dm-table-footer">60,398 rows</div>
+                                </div>
+                                <div class="dm-table green" style="left: 520px; top: 40px;">
+                                    <div class="dm-table-header"><i class="fas fa-box"></i> dim_products <button><i class="fas fa-ellipsis-h"></i></button></div>
+                                    <div class="dm-table-tabs"><span class="active">Columns</span><span>Create Statement</span></div>
+                                    <div class="dm-table-body">
+                                        <div class="row"><span><i class="fas fa-key"></i> product_key</span><span>bigint</span></div>
+                                        <div class="row"><span>product_id</span><span>integer</span></div>
+                                        <div class="row"><span>product_number</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>product_name</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>category</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>subcategory</span><span>varchar(50)</span></div>
+                                        <div class="row"><span>cost</span><span>integer</span></div>
+                                        <div class="row"><span>product_line</span><span>varchar(50)</span></div>
+                                    </div>
+                                    <div class="dm-table-footer">295 rows</div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="dm-sql-half">
+                            <div class="dm-console-full">
+                                <div class="console-top">
+                                    <div class="console-header" id="dmConsoleHeader">Schema Console — dim_customers</div>
+                                    <pre class="console-code" id="dmConsoleCode"><span class="comment">-- View: gold.dim_customers</span>
+<span class="comment">-- Customer dimension with enriched attributes</span>
+
+<span class="kw">CREATE VIEW</span> gold.dim_customers <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+    <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> ci.cst_id) <span class="kw">AS</span> customer_key,
+    ci.cst_id <span class="kw">AS</span> customer_id,
+    ci.cst_key <span class="kw">AS</span> customer_number,
+    ci.cst_firstname <span class="kw">AS</span> first_name,
+    ci.cst_lastname <span class="kw">AS</span> last_name,
+    ci.cst_marital_status <span class="kw">AS</span> marital_status,
+    ci.cst_gndr <span class="kw">AS</span> gender,
+    ci.cst_create_date <span class="kw">AS</span> birth_date,
+    la.cntry <span class="kw">AS</span> country
+<span class="kw">FROM</span> silver.crm_cust_info ci
+<span class="kw">LEFT JOIN</span> silver.erp_cust_az12 ca
+    <span class="kw">ON</span> ci.cst_key = ca.cid
+<span class="kw">LEFT JOIN</span> silver.erp_loc_a101 la
+    <span class="kw">ON</span> ca.cid = la.cid;</pre>
+                                    <div class="console-footer">
+                                        <button class="btn btn-success btn-sm dm-console-run"><i class="fas fa-play"></i> Run</button>
+                                        <span class="shortcut">⌘ Enter</span>
+                                        <span class="status" id="dmStatus"><i class="fas fa-check-circle"></i> Completed in 0.023s</span>
+                                    </div>
+                                </div>
+                                <div class="console-bottom">
+                                    <div class="console-tabs"><span class="active">Query Results</span><span>System Logs</span><span>Schema Issues</span></div>
+                                    <div class="console-table-wrapper">
+                                    <table class="console-table" id="dmResultsTable">
+                                        <thead><tr><th>customer_key</th><th>customer_id</th><th>customer_number</th><th>first_name</th><th>last_name</th><th>marital_status</th><th>country</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>1</td><td>11000</td><td>AW00011000</td><td>Jon</td><td>Yang</td><td>Married</td><td>Australia</td></tr>
+                                            <tr><td>2</td><td>11001</td><td>AW00011001</td><td>Eugene</td><td>Huang</td><td>Single</td><td>Australia</td></tr>
+                                            <tr><td>3</td><td>11002</td><td>AW00011002</td><td>Ruben</td><td>Torres</td><td>Married</td><td>Australia</td></tr>
+                                            <tr><td>4</td><td>11003</td><td>AW00011003</td><td>Christy</td><td>Zhu</td><td>Single</td><td>Australia</td></tr>
+                                            <tr><td>5</td><td>11004</td><td>AW00011004</td><td>Elizabeth</td><td>Johnson</td><td>Single</td><td>Australia</td></tr>
+                                            <tr><td>6</td><td>11005</td><td>AW00011005</td><td>Julio</td><td>Ruiz</td><td>Single</td><td>Australia</td></tr>
+                                            <tr><td>7</td><td>11006</td><td>AW00011006</td><td>Janet</td><td>Alvarez</td><td>Single</td><td>Australia</td></tr>
+                                            <tr><td>8</td><td>11007</td><td>AW00011007</td><td>Marco</td><td>Mehta</td><td>Married</td><td>Australia</td></tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== DATA QUALITY PAGE ==================== -->
+                <div class="page" id="qualityPage" style="display: none;">
+                    <div class="page-header">
+                        <div>
+                            <h1>Data Quality Report</h1>
+                            <p>Comprehensive data validation and quality metrics</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn btn-secondary" id="exportReportBtn"><i class="fas fa-download"></i> Export Report</button>
+                            <button class="btn btn-primary" id="rerunChecksBtn"><i class="fas fa-sync"></i> Re-run Checks</button>
+                        </div>
+                    </div>
+                    <div class="quality-grid">
+                        <div class="quality-card">
+                            <div class="quality-card-header">
+                                <h3><i class="fas fa-key"></i> Primary Key Integrity</h3>
+                                <span class="badge-success"><i class="fas fa-check"></i> Passed</span>
+                            </div>
+                            <div class="quality-card-body">
+                                <p>All primary keys are unique and not null across all Gold layer tables.</p>
+                                <div class="quality-stats">
+                                    <div class="qs"><span>dim_customers</span><span class="pass">✓ 18,484 unique</span></div>
+                                    <div class="qs"><span>dim_products</span><span class="pass">✓ 295 unique</span></div>
+                                    <div class="qs"><span>fact_sales</span><span class="pass">✓ 60,398 unique</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quality-card">
+                            <div class="quality-card-header">
+                                <h3><i class="fas fa-link"></i> Referential Integrity</h3>
+                                <span class="badge-success"><i class="fas fa-check"></i> Passed</span>
+                            </div>
+                            <div class="quality-card-body">
+                                <p>All foreign key relationships are valid with no orphaned records.</p>
+                                <div class="quality-stats">
+                                    <div class="qs"><span>customer_key → dim_customers</span><span class="pass">✓ 100%</span></div>
+                                    <div class="qs"><span>product_key → dim_products</span><span class="pass">✓ 100%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quality-card">
+                            <div class="quality-card-header">
+                                <h3><i class="fas fa-ban"></i> Null Value Analysis</h3>
+                                <span class="badge-success"><i class="fas fa-check"></i> Passed</span>
+                            </div>
+                            <div class="quality-card-body">
+                                <p>Critical columns contain no null values after Silver layer transformations.</p>
+                                <div class="quality-stats">
+                                    <div class="qs"><span>customer_name</span><span class="pass">✓ 0% null</span></div>
+                                    <div class="qs"><span>product_name</span><span class="pass">✓ 0% null</span></div>
+                                    <div class="qs"><span>sales_amount</span><span class="pass">✓ 0% null</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quality-card">
+                            <div class="quality-card-header">
+                                <h3><i class="fas fa-text-height"></i> Data Standardization</h3>
+                                <span class="badge-success"><i class="fas fa-check"></i> Passed</span>
+                            </div>
+                            <div class="quality-card-body">
+                                <p>All categorical values are standardized and consistent.</p>
+                                <div class="quality-stats">
+                                    <div class="qs"><span>Gender values</span><span class="pass">✓ Male/Female only</span></div>
+                                    <div class="qs"><span>Country names</span><span class="pass">✓ ISO standard</span></div>
+                                    <div class="qs"><span>Marital status</span><span class="pass">✓ Standardized</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test Scripts Section -->
+                    <div class="tests-section">
+                        <div class="page-header" style="margin-top: 32px;">
+                            <div>
+                                <h2><i class="fas fa-vial"></i> Quality Control Tests</h2>
+                                <p>SQL-based test scripts validating data integrity at each layer</p>
+                            </div>
+                            <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Tests" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-github"></i> View All Tests
+                            </a>
+                        </div>
+                        <div class="two-column">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-layer-group"></i> Silver Layer QC</h3>
+                                    <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Tests/Slver_layer_qc" target="_blank" class="link">View Scripts <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                                <div class="test-list">
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Null Value Check</span>
+                                            <span class="test-desc">Validates no critical NULLs in transformed tables</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Duplicate Detection</span>
+                                            <span class="test-desc">Ensures no duplicate records after deduplication</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Data Type Validation</span>
+                                            <span class="test-desc">Verifies correct data types after transformation</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Date Range Check</span>
+                                            <span class="test-desc">Validates dates are within expected ranges</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-crown"></i> Gold Layer QC</h3>
+                                    <a href="https://github.com/rahulx2001/InsightFlow/tree/main/Tests/Gold_layer_qc" target="_blank" class="link">View Scripts <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                                <div class="test-list">
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Primary Key Uniqueness</span>
+                                            <span class="test-desc">All surrogate keys are unique</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Foreign Key Integrity</span>
+                                            <span class="test-desc">All FKs reference valid dimension records</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Aggregation Accuracy</span>
+                                            <span class="test-desc">Fact table calculations are correct</span>
+                                        </div>
+                                    </div>
+                                    <div class="test-item passed">
+                                        <i class="fas fa-check-circle"></i>
+                                        <div class="test-content">
+                                            <span class="test-name">Dimension Completeness</span>
+                                            <span class="test-desc">No orphaned dimension values</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="casestudy.js"></script>
+</body>
+</html>
