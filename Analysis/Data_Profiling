@@ -1,0 +1,202 @@
+/*
+===============================================================================
+Data Profiling & Exploratory Data Analysis (EDA)
+Gold Layer Validation
+===============================================================================
+Purpose:
+    - Validate data warehouse structure
+    - Understand data coverage and quality
+    - Answer key business questions
+===============================================================================
+*/
+
+-- ============================================================================
+-- 1) Model Structure Verification
+-- ============================================================================
+
+SELECT *
+FROM information_schema.columns
+WHERE table_schema = 'gold'
+  AND table_name = 'dim_customers';
+
+
+-- ============================================================================
+-- 2) Dimension Exploration
+-- ============================================================================
+
+SELECT DISTINCT
+    category,
+    subcategory,
+    product_name
+FROM gold.dim_products
+ORDER BY category, subcategory, product_name;
+
+
+-- ============================================================================
+-- 3) Date Exploration (Data Range)
+-- ============================================================================
+
+SELECT
+    MIN(order_date) AS first_order_date,
+    MAX(order_date) AS last_order_date,
+    (
+        EXTRACT(YEAR FROM AGE(MAX(order_date), MIN(order_date))) * 12
+      + EXTRACT(MONTH FROM AGE(MAX(order_date), MIN(order_date)))
+    ) AS order_range_months
+FROM gold.fact_sales;
+
+
+-- ============================================================================
+-- 4) Customer Age Boundaries
+-- ============================================================================
+
+SELECT
+    MAX(birth_date) AS youngest_customer_birthdate,
+    MIN(birth_date) AS oldest_customer_birthdate
+FROM gold.dim_customers;
+
+
+-- ============================================================================
+-- 5) Measure Exploration (Sales KPIs)
+-- ============================================================================
+
+-- Total Sales
+SELECT SUM(sales_amount) AS total_sales
+FROM gold.fact_sales;
+
+-- Total Quantity Sold
+SELECT SUM(quantity) AS total_quantity
+FROM gold.fact_sales;
+
+-- Average Sales Amount
+SELECT AVG(sales_amount) AS avg_sales_amount
+FROM gold.fact_sales;
+
+-- Total Orders
+SELECT COUNT(DISTINCT order_number) AS total_orders
+FROM gold.fact_sales;
+
+-- Total Products
+SELECT COUNT(DISTINCT product_key) AS total_products
+FROM gold.dim_products;
+
+-- Total Customers
+SELECT COUNT(customer_key) AS total_customers
+FROM gold.dim_customers;
+
+-- Total Customers who placed an order
+SELECT COUNT(DISTINCT customer_key) AS active_customers
+FROM gold.fact_sales;
+
+
+-- ============================================================================
+-- 6) KPI Summary Report (One Table)
+-- ============================================================================
+
+SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value 
+FROM gold.fact_sales
+
+UNION ALL
+SELECT 'Total Quantity', SUM(quantity)
+FROM gold.fact_sales
+
+UNION ALL
+SELECT 'Average Sales Amount', AVG(sales_amount)
+FROM gold.fact_sales
+
+UNION ALL
+SELECT 'Total Orders', COUNT(DISTINCT order_number)
+FROM gold.fact_sales
+
+UNION ALL
+SELECT 'Total Products', COUNT(product_key)
+FROM gold.dim_products
+
+UNION ALL
+SELECT 'Total Customers', COUNT(customer_key)
+FROM gold.dim_customers;
+
+
+-- ============================================================================
+-- 7) Customer Distribution
+-- ============================================================================
+
+-- Customers by country
+SELECT
+    country,
+    COUNT(customer_key) AS total_customers
+FROM gold.dim_customers
+GROUP BY country
+ORDER BY total_customers DESC;
+
+-- Customers by gender
+SELECT
+    new_gen,
+    COUNT(customer_key) AS total_customers
+FROM gold.dim_customers
+GROUP BY new_gen
+ORDER BY total_customers DESC;
+
+
+-- ============================================================================
+-- 8) Product Analysis
+-- ============================================================================
+
+-- Products by category
+SELECT
+    category,
+    COUNT(product_key) AS total_products
+FROM gold.dim_products
+GROUP BY category
+ORDER BY total_products DESC;
+
+-- Average cost by category
+SELECT
+    category,
+    ROUND(AVG(cost), 2) AS avg_cost
+FROM gold.dim_products
+GROUP BY category
+ORDER BY avg_cost DESC;
+
+-- Revenue by category
+SELECT
+    p.category,
+    SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_products p
+    ON p.product_key = f.product_key
+GROUP BY p.category
+ORDER BY total_revenue DESC;
+
+
+-- ============================================================================
+-- 9) Customer Revenue Analysis
+-- ============================================================================
+
+SELECT
+    c.customer_key,
+    c.first_name,
+    c.last_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c
+    ON c.customer_key = f.customer_key
+GROUP BY
+    c.customer_key,
+    c.first_name,
+    c.last_name
+ORDER BY total_revenue DESC;
+
+
+-- ============================================================================
+-- 10) Sales Distribution by Country
+-- ============================================================================
+
+SELECT
+    c.country,
+    SUM(f.quantity) AS total_sold_items
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c
+    ON c.customer_key = f.customer_key
+GROUP BY c.country
+ORDER BY total_sold_items DESC;
